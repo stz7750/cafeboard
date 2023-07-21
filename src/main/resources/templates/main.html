@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>메인페이지</title>
+</head>
+<body>
+    <h1>게시판 리스트</h1>
+    <strong>hello</strong>
+    <p th:text="|${name}님! 안녕하세요|"></p>
+    <h1>프래그먼트</h1>
+    <div th:insert="fragment :: one"></div>
+    <div th:insert="fragment :: two"></div>
+</body>
+</html>
