@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.board.demo.mapper.MemberMapper">
+    <select id="selectMember" resultType="com.board.demo.vo.MemberVO">
+        SELECT
+            *
+        FROM
+            member;
+    </select>
+    <insert id="insertMember" parameterType="com.board.demo.vo.MemberVO">
+        insert into
+            member
+            (
+            id,
+            name,
+            password,
+            level,
+            address,
+            email
+            )
+            values
+            (
+            #{id},
+            #{name},
+            #{password},
+            #{level},
+            #{address},
+            #{email}
+            )
+    </insert>
+</mapper>

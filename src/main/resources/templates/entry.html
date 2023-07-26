@@ -1,0 +1,175 @@
+
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, 그리고 Bootstrap 기여자들">
+    <meta name="generator" content="Hugo 0.88.1">
+    <title>회원 가입</title>
+
+
+
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="/docs/5.1/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
+    <link rel="icon" href="/docs/5.1/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="/docs/5.1/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="manifest" href="/docs/5.1/assets/img/favicons/manifest.json">
+    <link rel="mask-icon" href="/docs/5.1/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
+    <link rel="icon" href="/docs/5.1/assets/img/favicons/favicon.ico">
+    <meta name="theme-color" content="#7952b3">
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+
+    <!-- Custom styles for this template -->
+    <link href="form-validation.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container">
+    <main>
+        <div class="py-5 text-center">
+            <img class="d-block mx-auto mb-4" src="/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+            <h2>회원 가입</h2>
+            <p class="lead">누구나 쉽게 이용 가능한 대나무숲 입니다.<br> 회원 가입을 위한 필수 정보를 입력해주세요.</p>
+        </div>
+
+
+            <div class="div-form">
+                <h4 class="mb-3">정보</h4>
+                <form th:action="@{/hello/signUp}" method="post" id="signUpForm">
+                    <div class="col-12">
+                        <label for="userName" class="form-label">이름</label>
+                        <div class="input-group has-validation">
+                            <span class="input-group-text">이름</span>
+                            <input type="text" class="form-control" id="userName" name="name" placeholder="이름을 입력해주세요." maxlength="30" required>
+                            <div class="invalid-feedback">
+                                Your username is required.
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="col-12">
+                            <label for="userId" class="form-label">ID</label>
+                            <div class="input-group has-validation">
+                                <span class="input-group-text">ID</span>
+                                <input type="text" class="form-control" id="userId" name="id" placeholder="ID를 입력해주세요." maxlength="30" pattern="[A-Za-z]+" required>
+                                <div class="invalid-feedback">
+                                    Your username is required.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <label for="passwd" class="form-label">비밀번호</label>
+                            <div class="input-group has-validation">
+                                <span class="input-group-text">password</span>
+                                <input type="password" class="form-control" name="password" id="passwd" placeholder="비밀번호를 입력해주세요." required>
+                                <div class="invalid-feedback">
+                                    Your username is required.
+                                </div>
+                            </div>
+                        </div>
+
+                    <div class="col-12">
+                        <label for="email" class="form-label">이메일</label>
+                        <div class="input-group has-validation">
+                            <span class="input-group-text">email</span>
+                            <input type="password" class="form-control" name="email" id="email" placeholder="your@eample.com" required>
+                            <div class="invalid-feedback">
+                                Your username is required.
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="col-12">
+                            <label for="address" class="form-label">주소</label>
+                            <input type="text" class="form-control" id="address" name="address"placeholder="서울특별시 OO구 OO동" required>
+                            <input type="button" value="우편번호 검색" onclick="addPost()">
+                            <div class="invalid-feedback">
+                                Please enter your shipping address.
+                            </div>
+                        </div>
+
+                        <div class="col-12" style="display:none;" id="addressDiv">
+                            <label for="address2" class="form-label">상세주소<span class="text-muted"></span></label>
+                            <input type="text" class="form-control" id="address2" name="address" placeholder="상세주소를 입력해주세요.">
+                        </div>
+
+
+
+                    <hr class="my-4">
+
+                    <button class="btn btn-primary" id="joinBtn" type="submit">가입</button>
+                    <button class="btn btn-danger"><a href="#">취소</a></button>
+                </form>
+            </div>
+
+    </main>
+
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">Since 2023 stz Company</p>
+        <ul class="list-inline">
+            <li class="list-inline-item">대표자명: 김태훈</li>
+            <li class="list-inline-item">대표전화: 010-7750-2361</li>
+            <li class="list-inline-item"><a href="https://github.com/stz7750">gitHub</a></li>
+            <li class="list-inline-item"><a href="#">사이트맵</a></li>
+        </ul>
+    </footer>
+</div>
+
+
+<script src="static/bootstrap.bundle.min.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="static/jquery-3.6.0.min.js"></script>
+<script>
+    function addPost(){
+        new daum.Postcode({
+            oncomplete: function(data) {
+                    document.querySelector("#address").value = data.address;
+                    alert("나머지 주소도 입력하세요.");
+                    document.querySelector("#addressDiv").style.display = "block";
+                    document.querySelector("#address2").focus();
+            }
+        }).open();
+    }
+    $("#signUpForm").on("submit",function(e){
+        event.preventDefault(); //이벤트 동작 중단
+
+        //ajax로 폼 데이터를 보냅니다.
+        $.ajax({
+            type:"POST",
+            url:"/hello/signUp",
+            data:$(this).serialize(),
+            success:function(response){
+                alert("회원 가입이 성공적으로 완료되었습니다.");
+            },
+            error: function(error){
+            alert("에러가 발생했습니다. 잠시 후에 다시 시도해주세요.");
+            }
+        });
+    });
+</script>
+</body>
+</html>
