@@ -23,4 +23,8 @@ public class MemberService {
         vo.setLevel("member");
         return mapper.insertMember(vo);
     }
+
+    public MemberVO findByUserinfo(String memberId){
+        return mapper.findByUserinfo(memberId);
+    }
 }

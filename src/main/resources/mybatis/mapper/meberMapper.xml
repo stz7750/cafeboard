@@ -7,7 +7,15 @@
         SELECT
             *
         FROM
-            member;
+            MEMBER;
+    </select>
+    <select id="findByUserinfo" resultType="com.board.demo.vo.MemberVO">
+        SELECT
+            *
+        FROM
+            MEMBER
+        WHERE
+            id = #{memberId};
     </select>
     <insert id="insertMember" parameterType="com.board.demo.vo.MemberVO">
         insert into
