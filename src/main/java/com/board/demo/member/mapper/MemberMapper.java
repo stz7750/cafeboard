@@ -1,7 +1,7 @@
-package com.board.demo.mapper;
+package com.board.demo.member.mapper;
 
 
-import com.board.demo.vo.MemberVO;
+import com.board.demo.member.vo.MemberVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

@@ -1,15 +1,15 @@
 package com.board.demo.config;
 
-import com.board.demo.serivce.MemberService;
+import com.board.demo.member.serivce.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import com.board.demo.vo.MemberVO;
+import com.board.demo.member.vo.MemberVO;
 
 @Service
-public class boardUserDetailsService implements UserDetailsService {
+public class BoardUserDetailsService implements UserDetailsService {
 
 
     @Autowired

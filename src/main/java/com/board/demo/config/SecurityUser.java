@@ -1,6 +1,6 @@
 package com.board.demo.config;
 
-import com.board.demo.vo.MemberVO;
+import com.board.demo.member.vo.MemberVO;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 
@@ -9,9 +9,9 @@ import org.springframework.security.core.userdetails.User;
 public class SecurityUser extends User {
     private static final long serialVersionUID = 1L;
 
-    private com.board.demo.vo.MemberVO memberVO;
+    private MemberVO memberVO;
 
-    public SecurityUser(com.board.demo.vo.MemberVO memberVO){
+    public SecurityUser(MemberVO memberVO){
         super(memberVO.getId(), "{noop}"+memberVO.getPassword(),
                 AuthorityUtils.createAuthorityList(memberVO.getLevel().toString()));
 
@@ -23,11 +23,11 @@ public class SecurityUser extends User {
         return serialVersionUID;
     }
 
-    public com.board.demo.vo.MemberVO getUser() {
+    public MemberVO getUser() {
         return memberVO;
     }
 
-    public void setUser(com.board.demo.vo.MemberVO memberVO) {
+    public void setUser(MemberVO memberVO) {
         this.memberVO = memberVO;
     }
 }

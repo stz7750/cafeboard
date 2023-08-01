@@ -8,11 +8,11 @@ import javax.sql.DataSource;
 import java.util.List;
 import java.util.Map;
 
-public class dataBaseConfig {
+public class BataBaseConfig {
 
     private JdbcTemplate jdbcTemplate;
 
-    public dataBaseConfig(DataSource dataSource) {
+    public BataBaseConfig(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
@@ -35,7 +35,7 @@ public class dataBaseConfig {
                 .driverClassName("org.postgresql.Driver")
                 .build();
 
-        dataBaseConfig dataBaseConfig = new dataBaseConfig(dataSource);
+        BataBaseConfig dataBaseConfig = new BataBaseConfig(dataSource);
 
         // 쿼리 실행 및 로깅
         String sql = "SELECT * FROM 테이블명 WHERE column1 = :param1 AND column2 = :param2";

@@ -1,4 +1,4 @@
-package com.board.demo.vo;
+package com.board.demo.member.vo;
 
 import lombok.Data;
 
