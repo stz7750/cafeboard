@@ -14,4 +14,6 @@ public class ContentVO {
     private LocalDateTime creDate;
     private int views;
     private LocalDateTime modifiedDate;
+    private int recCount;
+    private String postContent;
 }

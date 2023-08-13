@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html  xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -19,15 +19,40 @@
             </ul>
 
             <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
+                <div class="search-container">
+                    <div class="select-container">
+                        <select class="form-select form-select-sm" aria-label="Default select example" id="searchType">
+                            <option value="all" selected>전체</option>
+                            <option value="title">제목</option>
+                            <option value="author">작성자</option>
+                            <option value="postContent">글 내용</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                <div class="search-container">
+                    <div class="select-container">
+                        <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search" id="searchValue">
+                    </div>
+                </div>
+            </form>
+
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+                <div class="search-container">
+                    <div class="select-container">
+                        <button type="button" class="btn btn-light" id="searchBtn" >검색</button>
+                    </div>
+                </div>
             </form>
 
             <div class="text-end">
                 <th:block th:if="${loggedInUsername != null}">
-                <a type="button"  class="btn btn-outline-light me-2" href="/hello/logout">Logout</a>
+                    <a type="button"  class="btn btn-outline-light me-2" href="/hello/logout">Logout</a>
                 </th:block>
                 <th:block th:unless="${loggedInUsername != null}">
-                <a type="button" class="btn btn-outline-light me-2" href="/hello/login">Login</a>
+                    <a type="button" class="btn btn-outline-light me-2" href="/hello/login">Login</a>
                 </th:block>
                 <a th:if="${loggedInUsername == null}"type="button" class="btn btn-warning" href="/hello/entry">Sign-up</a>
                 <String th:unless="${loggedInUsername == null}" th:text="|${loggedInUsername}님 안녕하세요.|"></String>

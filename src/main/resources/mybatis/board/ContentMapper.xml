@@ -3,6 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.board.demo.content.mapper.ContentMapper">
+
+    <!--게시글 리스트-->
     <select id="selectContentList" resultType="com.board.demo.content.vo.ContentVO">
         SELECT
             id,
@@ -11,10 +13,200 @@
             author,
             cre_date as creDate,
             views,
-            modified_date
+            modified_date,
+            rec_count as recCount,
+            post_content as postContent
         FROM
-            content
+            CONTENT
         ORDER BY
-            cre_date,views
+            cre_date, views
+        LIMIT #{size} OFFSET #{start}
     </select>
+
+    <!--전체 게시글 카운트-->
+    <select id="selectContentListCnt" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CONTENT
+    </select>
+
+
+    <!--클릭 시 특정 게시글 -->
+    <select id="getByContentId" resultType="com.board.demo.content.vo.ContentVO">
+        SELECT
+            id,
+            category,
+            title,
+            author,
+            cre_date as creDate,
+            views,
+            modified_date,
+            rec_count as recCount,
+            post_content as postContent
+        FROM
+            CONTENT
+        WHERE
+            id = #{id}
+    </select>
+
+    <!--내가 작성한 게시글 정보-->
+    <select id="getMemberContent" resultType="com.board.demo.content.vo.ContentVO">
+        SELECT
+            id,
+            category,
+            title,
+            author,
+            cre_date as creDate,
+            views,
+            modified_date,
+            rec_count as recCount,
+            post_content as postContent
+        FROM
+            CONTENT
+        WHERE
+            id = #{id}
+            AND author = #{author}
+    </select>
+
+    <!--내가 추천 누른 게시글  -->
+    <select id="cntRecMemberId" resultType="boolean">
+        SELECT
+            COUNT(*) > 0
+        FROM
+            recommendation
+        WHERE
+            author = #{author} AND content_id = #{id}
+    </select>
+
+    <select id="searchContent" resultType="com.board.demo.content.vo.ContentVO" parameterType="map">
+        SELECT DISTINCT
+            id,
+            category,
+            title,
+            author,
+            cre_date as creDate,
+            views,
+            modified_date,
+            rec_count as recCount,
+            post_content as postContent
+        FROM
+            CONTENT
+        <where>
+            <choose>
+                <when test="searchType == 'all'">
+                    title LIKE CONCAT('%', #{searchValue}, '%')
+                    OR author LIKE CONCAT('%', #{searchValue}, '%')
+                    OR post_content LIKE CONCAT('%', #{searchValue}, '%')
+                </when>
+                <when test="searchType == 'title'">
+                    title LIKE CONCAT('%', #{searchValue}, '%')
+                </when>
+                <when test="searchType == 'author'">
+                    author LIKE CONCAT('%', #{searchValue}, '%')
+                </when>
+                <when test="searchType == 'postContent'">
+                    post_content LIKE CONCAT('%', #{searchValue}, '%')
+                </when>
+            </choose>
+        </where>
+        ORDER BY
+            cre_date DESC
+        LIMIT #{size} OFFSET #{start}
+    </select>
+
+    <select id="searchContentCnt" resultType="int">
+        SELECT
+            COUNT(DISTINCT id)
+        FROM
+            CONTENT
+        <where>
+            <choose>
+                <when test="searchType == 'all'">
+                    title LIKE CONCAT('%', #{searchValue}, '%')
+                    OR author LIKE CONCAT('%', #{searchValue}, '%')
+                    OR post_content LIKE CONCAT('%', #{searchValue}, '%')
+                </when>
+                <when test="searchType == 'title'">
+                    title LIKE CONCAT('%', #{searchValue}, '%')
+                </when>
+                <when test="searchType == 'author'">
+                    author LIKE CONCAT('%', #{searchValue}, '%')
+                </when>
+                <when test="searchType == 'postContent'">
+                    post_content LIKE CONCAT('%', #{searchValue}, '%')
+                </when>
+            </choose>
+        </where>
+    </select>
+
+
+    <!--게시글 등록 -->
+    <insert id="addBoardContent" parameterType="com.board.demo.content.vo.ContentVO">
+        INSERT INTO
+            CONTENT
+            (
+            category,
+            title,
+            post_content,
+            author,
+            cre_date
+            )
+        VALUES
+            (
+            #{category},
+            #{title},
+            #{postContent},
+            #{author},
+            now()
+            )
+    </insert>
+
+    <insert id="recMemberId">
+        INSERT INTO
+            recommendation
+            (
+            author,
+            content_id
+            )
+        VALUES
+            (
+            #{author},
+            #{id}
+            )
+    </insert>
+
+    <update id="recCountUp" parameterType="int">
+        UPDATE
+            content
+        SET
+            rec_count = rec_count + 1
+        WHERE
+            id = #{id}
+    </update>
+
+    <update id="updateContent">
+        UPDATE content
+        <set>
+            <if test="content.title != null">title = #{content.title},</if>
+            <if test="content.postContent != null">post_content = #{content.postContent},</if>
+            <if test="content.category != null">category = #{content.category},</if>
+            modified_date = now()
+        </set>
+        WHERE
+            id = #{id}
+        AND
+            author = #{author}
+    </update>
+
+    <update id="viewUp" parameterType="int">
+        UPDATE
+            CONTENT
+        SET
+            views = views + 1
+        WHERE
+            id = #{id}
+    </update>
+
+
 </mapper>

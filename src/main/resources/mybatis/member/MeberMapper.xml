@@ -3,12 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.board.demo.member.mapper.MemberMapper">
+
     <select id="selectMember" resultType="com.board.demo.member.vo.MemberVO">
         SELECT
             *
         FROM
             MEMBER;
     </select>
+
     <select id="findByUserinfo" resultType="com.board.demo.member.vo.MemberVO">
         SELECT
             *
@@ -16,6 +18,119 @@
             MEMBER
         WHERE
             id = #{memberId};
+    </select>
+
+    <!--최근 회원이 작성한 게시글 -->
+    <select id="getMemberContent" resultType="com.board.demo.content.vo.ContentVO">
+        select
+            id,
+            category,
+            title,
+            author,
+            cre_date as creDate,
+            views,
+            modified_date,
+            rec_count as recCount,
+            post_content as postContent
+        from
+            content
+        where
+            author = #{author}
+        order by
+            cre_date desc
+        limit 3
+    </select>
+
+    <!--회원이 작성한 모든 게시글 -->
+    <select id="memberAllContent" resultType="com.board.demo.content.vo.ContentVO">
+        select
+            id,
+            category,
+            title,
+            author,
+            cre_date as creDate,
+            views,
+            modified_date,
+            rec_count as recCount,
+            post_content as postContent
+        from
+            content
+        where
+            author = #{author}
+        order by
+            cre_date desc
+        LIMIT #{size} OFFSET #{start}
+    </select>
+
+    <!--회원이 작성한 게시글 카운트-->
+    <select id="memberContentListCnt" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CONTENT
+        WHERE
+            author = #{author}
+    </select>
+
+    <!--회원이 추천 받은 갯수 -->
+    <select id="memberRecCount" resultType="int">
+        SELECT
+            SUM(REC_COUNT) as recCount
+        FROM
+            CONTENT
+        WHERE
+            author= #{author}
+    </select>
+
+    <!--오늘 날짜 기준 게시물 갯수-->
+    <select id="todayMemberContent" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CONTENT
+        WHERE
+            author = #{author}
+        AND
+            DATE(cre_date) = DATE(NOW())
+    </select>
+
+    <!--30일 이내 기준 게시물 갯수-->
+    <select id="monthMemberContent" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            CONTENT
+        WHERE
+            author = #{author}
+        AND
+            cre_date >= NOW() - INTERVAL '30 days'
+    </select>
+
+    <!--오늘날짜 기준 추천 수 갯수 -->
+    <select id="todayMemberRec" resultType="int">
+        SELECT
+            SUM(REC_COUNT) as recCount
+        FROM
+            CONTENT
+        WHERE
+            author = #{author}
+        AND
+            cre_date >= DATE_TRUNC('day', cre_date)
+        AND
+        cre_date <![CDATA[ < ]]> DATE_TRUNC('day', cre_date) + INTERVAL '1 day';
+
+    </select>
+
+    <!--30일 이내 추천 수 갯수-->
+    <select id="monthMemberRec" resultType="int">
+        SELECT
+            SUM(REC_COUNT) as recCount
+        FROM
+            CONTENT
+        WHERE
+            author = #{author}
+        AND
+            cre_date >= NOW() - INTERVAL '30 days'
     </select>
 
     <insert id="insertMember" parameterType="com.board.demo.member.vo.MemberVO">
@@ -39,4 +154,25 @@
             #{email}
             )
     </insert>
+
+    <update id="memberInfoModify" parameterType="com.board.demo.member.vo.MemberVO">
+        UPDATE member
+        <set>
+            <if test="password != null">password = #{password},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="email != null">email = #{email}</if>
+        </set>
+        WHERE
+            id = #{id}
+    </update>
+
+    <delete id="deleteMemberContent">
+        DELETE
+        FROM
+            CONTENT
+        WHERE
+            id = #{id}
+        AND
+            author = #{author}
+    </delete>
 </mapper>

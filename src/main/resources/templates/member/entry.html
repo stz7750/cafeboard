@@ -60,13 +60,10 @@
                 <h4 class="mb-3">정보</h4>
                 <form th:action="@{/hello/signUp}" method="post" id="signUpForm">
                     <div class="col-12">
-                        <label for="userName" class="form-label">이름</label>
+                        <label for="name" class="form-label">이름</label>
                         <div class="input-group has-validation">
                             <span class="input-group-text">이름</span>
-                            <input type="text" class="form-control" id="userName" name="name" placeholder="이름을 입력해주세요." maxlength="30" required>
-                            <div class="invalid-feedback">
-                                Your username is required.
-                            </div>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="이름을 입력해주세요." maxlength="30" required>
                         </div>
                     </div>
 
@@ -74,10 +71,7 @@
                             <label for="userId" class="form-label">ID</label>
                             <div class="input-group has-validation">
                                 <span class="input-group-text">ID</span>
-                                <input type="text" class="form-control" id="userId" name="id" placeholder="ID를 입력해주세요." maxlength="30" pattern="[A-Za-z]+" required>
-                                <div class="invalid-feedback">
-                                    Your username is required.
-                                </div>
+                                <input type="text" class="form-control" id="id" name="id" placeholder="ID를 입력해주세요." maxlength="30" pattern="[A-Za-z0-9]+" required>
                             </div>
                         </div>
 
@@ -85,10 +79,7 @@
                             <label for="passwd" class="form-label">비밀번호</label>
                             <div class="input-group has-validation">
                                 <span class="input-group-text">password</span>
-                                <input type="password" class="form-control" name="password" id="passwd" placeholder="비밀번호를 입력해주세요." required>
-                                <div class="invalid-feedback">
-                                    Your username is required.
-                                </div>
+                                <input type="password" class="form-control" name="password" id="password" maxlength="15" placeholder="비밀번호를 입력해주세요." required>
                             </div>
                         </div>
 
@@ -96,20 +87,14 @@
                         <label for="email" class="form-label">이메일</label>
                         <div class="input-group has-validation">
                             <span class="input-group-text">email</span>
-                            <input type="password" class="form-control" name="email" id="email" placeholder="your@eample.com" required>
-                            <div class="invalid-feedback">
-                                Your username is required.
-                            </div>
+                            <input type="email" class="form-control" name="email" id="email" maxlength="255" placeholder="your@eample.com" required>
                         </div>
                     </div>
 
                         <div class="col-12">
                             <label for="address" class="form-label">주소</label>
-                            <input type="text" class="form-control" id="address" name="address"placeholder="서울특별시 OO구 OO동" required>
+                            <input type="text" class="form-control" id="address" name="address"placeholder="서울특별시 OO구 OO동" required readonly>
                             <input type="button" value="우편번호 검색" onclick="addPost()">
-                            <div class="invalid-feedback">
-                                Please enter your shipping address.
-                            </div>
                         </div>
 
                         <div class="col-12" style="display:none;" id="addressDiv">
@@ -125,7 +110,6 @@
                     <button class="btn btn-danger"><a href="#">취소</a></button>
                 </form>
             </div>
-
     </main>
 
     <footer class="my-5 pt-5 text-muted text-center text-small">
@@ -139,10 +123,9 @@
     </footer>
 </div>
 
-
-<script src="static/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" th:src="@{/static/js/bootstrap.bundle.min.js}"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="static/jquery-3.6.0.min.js"></script>
+<script th:src="@{/static/js/jquery-3.6.0.min.js}"></script>
 <script>
     function addPost(){
         new daum.Postcode({
@@ -156,20 +139,73 @@
     }
     $("#signUpForm").on("submit",function(e){
         event.preventDefault(); //이벤트 동작 중단
-
-        //ajax로 폼 데이터를 보냅니다.
-        $.ajax({
-            type:"POST",
-            url:"/hello/signUp",
-            data:$(this).serialize(),
-            success:function(response){
-                alert("회원 가입이 성공적으로 완료되었습니다.");
-            },
-            error: function(error){
-            alert("에러가 발생했습니다. 잠시 후에 다시 시도해주세요.");
-            }
-        });
+        var isValid = isVaildFormData();
+        if(isValid){
+            //ajax로 폼 데이터를 보냅니다.
+            $.ajax({
+                type:"POST",
+                url:"/hello/signUp",
+                data:$(this).serialize(),
+                success:function(response){
+                    alert("회원 가입이 성공적으로 완료되었습니다.");
+                },
+                error: function(error){
+                alert("에러가 발생했습니다. 잠시 후에 다시 시도해주세요.");
+                }
+            });
+        }
     });
+
+    function isVaildFormData(){
+            var id = $("#id").val();
+            var name = $("#name").val();
+            var password = $("#password").val();
+            var address = $("#address").val();
+            var address2 = $("#address2").val();
+            var email = $("#email").val();
+
+            var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            var reg = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/;
+
+            if(name == null || name == ''){
+                alert("이름을 입력해주세요.");
+                $("#id").focus();
+                return false;
+            }else if(id == null || id == ''){
+                alert("아이디를 입력해주세요.");
+                $("#name").focus();
+                return false;
+            }else if(password == null  || password == ''){
+                alert("패스워드를 입력해주세요.");
+                $("#password").focus();
+                return false;
+            }else if (!reg.test(password)) {
+                alert("비밀번호는 영문, 숫자, 특수문자를 포함한 8자 이상 15자 이하로 설정해주세요.");
+                $("#password").focus();
+                return false;
+            }else if(address == null || address == ''){
+                alert("주소을 입력해주세요.");
+                $("#address").focus();
+                return false;
+            }else if(address2 == null || address2 == ''){
+                alert("상세주소를 입력해주세요.");
+                $("#address2").focus();
+                return false;
+            }else if(email == null || email == ''){
+                alert("이메일을 입력해주세요.");
+                $("#email").focus();
+                return false;
+            }else if(emailPattern.test(email)){
+                alert("이메일 형식과 다릅니다.");
+                $("#email").focus();
+                return false;
+            }else{
+                return true;
+            }
+
+    }
+
+
 </script>
 </body>
 </html>

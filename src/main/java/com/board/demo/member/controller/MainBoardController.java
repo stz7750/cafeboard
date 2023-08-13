@@ -1,17 +1,23 @@
 package com.board.demo.member.controller;
 
 
+import com.board.demo.content.vo.ContentVO;
 import com.board.demo.member.serivce.MemberService;
+import com.board.demo.member.vo.AjaxPageResponse;
 import com.board.demo.member.vo.MemberVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Controller
 @RequestMapping("hello")
@@ -24,11 +30,6 @@ public class MainBoardController {
     //메인 페이지
     @GetMapping("main")
     public String main(Model m,HttpServletRequest request){
-        // MemberAuthenticationSuccess 를 이용해서 세션에 저장한 멤버의 아이디를 request를 이용해서 가져옵니다
-        String loggedInUsername = (String) request.getSession().getAttribute("loggedInUsername");
-
-        // 가져온 아이디 값을 모델에 추가하여 뷰로 전달합니다.
-        m.addAttribute("loggedInUsername", loggedInUsername);
         return "member/main";
     }
 
@@ -67,23 +68,71 @@ public class MainBoardController {
 
     //마이페이지
     @GetMapping("myPage")
-    public String mypage(HttpServletRequest request, Model m){
-        String loggedInUsername = (String) request.getSession().getAttribute("loggedInUsername");
-        try {
-            // MemberService를 사용하여 해당 멤버 정보를 조회합니다.
+    public String mypage(HttpServletRequest request, Model m) throws Exception{
+            // 현재 세션에서 로그인한 유저의 아이디를 가져옵니다.
+            String loggedInUsername = (String) request.getSession().getAttribute("loggedInUsername");
+            // LocalDateTime로 현재 날짜와 시간 구하기
+            LocalDateTime currentDateTime = LocalDateTime.now();
+            // 요일 정보를 한글로 표시하기 위해 DateTimeFormatter 설정
+            DateTimeFormatter dayOfWeekFormatter = DateTimeFormatter.ofPattern("E");
+            String currentDayOfWeek = currentDateTime.format(dayOfWeekFormatter);
+            // 로그인한 회원의 정보를 가져옵니다.
             MemberVO member = service.findByUserinfo(loggedInUsername);
-
-            // 조회한 멤버 정보를 모델에 추가하여 뷰로 전달합니다.
+            // 로그인한 회원의 작성 게시물을 가져옵니다.
+            List<ContentVO> memberContent = service.getMemberContent(loggedInUsername);
+            // 로그인한 회원의 오늘기준 게시물을 카운트합니다.
+            int tCntContent = service.todayMemberContent(loggedInUsername);
+            // 로그인한 회원의 한달 기준 게시물을 카운트합니다.
+            int mCntContent = service.monthMemberContent(loggedInUsername);
+            // 로그인한 회원의 오늘 기준 전체 추천 수를 가져옵니다.
+            int tCntRec = service.todayMemberRec(loggedInUsername);
+            // 로그인한 회원의 한달 기준 전체 추천 수를 가져옵니다.
+            int mCntRec = service.monthMemberRec(loggedInUsername);
+            // 필요한 멤버 정보를 모델에 추가하여 뷰로 전달합니다.
+            m.addAttribute("todayContent",tCntContent);
+            m.addAttribute("todayRec",tCntRec);
+            m.addAttribute("monthContent",mCntContent);
+            m.addAttribute("monthRec",mCntRec);
+            m.addAttribute("currentDayOfWeek",currentDayOfWeek);
+            m.addAttribute("ContentCnt",service.memberContentCnt(loggedInUsername));
+            m.addAttribute("recCount",service.memberRecCount(loggedInUsername));
+            m.addAttribute("memberContent",memberContent);
             m.addAttribute("member", member);
+            m.addAttribute("addr1",member.getAddr1());
+            m.addAttribute("addr2",member.getAddr2());
 
             return "member/myPage";
-        } catch (RuntimeException e) {
-            // 조회 결과가 없는 경우 에러 메시지를 처리하거나 다른 방법으로 처리합니다.
-            m.addAttribute("errorMessage", "멤버 정보를 찾을 수 없습니다. \n 다시 로그인 해주세요");
-
-            return "member/login";
-        }
     }
 
+    @PostMapping("myPaging")
+    public ResponseEntity<AjaxPageResponse<ContentVO>> getMemberContentPaging(@RequestParam(name ="page" ,defaultValue = "1")int  page,
+                                                                          @RequestParam(name ="size",required = false, defaultValue = "10")int  size,
+                                                                          HttpServletRequest request){
+        String loggedInUsername = (String) request.getSession().getAttribute("loggedInUsername");
+
+        Page<ContentVO>  ContentPaging = service.getMemberContentPaging(page,size,loggedInUsername);
+        AjaxPageResponse<ContentVO> response = new AjaxPageResponse<>(0, "success", ContentPaging);
+        return new ResponseEntity<AjaxPageResponse<ContentVO>>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/infoModify")
+    public String memberInfoModify(MemberVO vo,HttpServletRequest request){
+        /*String id = (String) request.getSession().getAttribute("loggedInUsername");*/
+        service.memberInfoModify(vo);
+        return "redirect:/hello/myPage";
+    }
+
+    @DeleteMapping("/removeMemberContent")
+    @ResponseBody
+    public String deleteMemberContent(@RequestParam("ids")List<Integer> ids,HttpServletRequest request,Model m) {
+        String author = (String) request.getSession().getAttribute("loggedInUsername");
+
+        String deleteResult = service.deleteMemberContent(ids, author);
+        if (deleteResult.equals("success")) {
+            return "success";
+        } else {
+            return "fail";
+        }
+    }
 
 }
