@@ -19,7 +19,7 @@
         FROM
             CONTENT
         ORDER BY
-            cre_date, views
+            cre_date, views DESC
         LIMIT #{size} OFFSET #{start}
     </select>
 
@@ -139,6 +139,108 @@
             </choose>
         </where>
     </select>
+
+    <!--오늘 추천을 많이 받은 게시물 10개 -->
+    <select id="getTodayMostRec" resultType="com.board.demo.content.vo.ContentVO">
+        SELECT
+            id,
+            category,
+            title,
+            author,
+            cre_date as creDate,
+            views,
+            modified_date,
+            rec_count as recCount,
+            post_content as postContent
+        FROM
+            CONTENT
+        WHERE
+            cre_date >= CURRENT_DATE - INTERVAL '1 DAY'
+        ORDER BY
+            rec_count DESC
+        LIMIT 10
+    </select>
+
+    <select id="getWeekMostRec" resultType="com.board.demo.content.vo.ContentVO">
+        SELECT
+            id,
+            category,
+            title,
+            author,
+            cre_date as creDate,
+            views,
+            modified_date,
+            rec_count as recCount,
+            post_content as postContent
+        FROM
+            CONTENT
+        WHERE
+            cre_date >= NOW() - INTERVAL '30 days'
+        ORDER BY
+            rec_count DESC
+        LIMIT 10
+    </select>
+
+
+    <select id="getTodayMostView" resultType="com.board.demo.content.vo.ContentVO">
+        SELECT
+            id,
+            category,
+            title,
+            author,
+            cre_date as creDate,
+            views,
+            modified_date,
+            rec_count as recCount,
+            post_content as postContent
+        FROM
+            CONTENT
+        WHERE
+            cre_date >= CURRENT_DATE - INTERVAL '1 DAY'
+        ORDER BY
+            views DESC
+        LIMIT 10
+    </select>
+
+    <select id="getWeekMostView" resultType="com.board.demo.content.vo.ContentVO">
+        SELECT
+            id,
+            category,
+            title,
+            author,
+            cre_date as creDate,
+            views,
+            modified_date,
+            rec_count as recCount,
+            post_content as postContent
+        FROM
+            CONTENT
+        WHERE
+            cre_date >= NOW() - INTERVAL '30 days'
+        ORDER BY
+            views DESC
+        LIMIT 10
+    </select>
+
+    <!--특정 카테고리 데이터 가져오기-->
+    <select id="getCategoryByContent" resultType="com.board.demo.content.vo.ContentVO">
+        SELECT
+            id,
+            category,
+            title,
+            author,
+            cre_date as creDate,
+            views,
+            modified_date,
+            rec_count as recCount,
+            post_content as postContent
+        FROM
+            CONTENT
+        WHERE
+            category = #{category}
+    </select>
+
+
 
 
     <!--게시글 등록 -->

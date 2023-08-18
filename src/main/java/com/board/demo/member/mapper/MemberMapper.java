@@ -36,4 +36,7 @@ public interface MemberMapper {
     int todayMemberRec(@Param("author")String author);
 
     int monthMemberRec(@Param("author")String author);
+
+    void updateLastLogin(MemberVO vo);
+
 }

@@ -13,7 +13,13 @@
 
     <select id="findByUserinfo" resultType="com.board.demo.member.vo.MemberVO">
         SELECT
-            *
+            id,
+            name,
+            password,
+            level,
+            address,
+            email,
+            last_login as lastLogin
         FROM
             MEMBER
         WHERE
@@ -162,6 +168,14 @@
             <if test="address != null">address = #{address},</if>
             <if test="email != null">email = #{email}</if>
         </set>
+        WHERE
+            id = #{id}
+    </update>
+
+    <update id="updateLastLogin" parameterType="com.board.demo.member.vo.MemberVO">
+        UPDATE member
+        SET
+            last_login = #{lastLogin}
         WHERE
             id = #{id}
     </update>

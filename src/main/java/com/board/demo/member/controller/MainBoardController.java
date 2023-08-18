@@ -1,7 +1,9 @@
 package com.board.demo.member.controller;
 
 
+import com.board.demo.content.service.ContentService;
 import com.board.demo.content.vo.ContentVO;
+import com.board.demo.TableModule;
 import com.board.demo.member.serivce.MemberService;
 import com.board.demo.member.vo.AjaxPageResponse;
 import com.board.demo.member.vo.MemberVO;
@@ -19,6 +21,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+
+
 @Controller
 @RequestMapping("hello")
 public class MainBoardController {
@@ -26,11 +30,49 @@ public class MainBoardController {
     @Autowired
     MemberService service;
 
+    @Autowired
+    ContentService contentService;
 
     //메인 페이지
     @GetMapping("main")
-    public String main(Model m,HttpServletRequest request){
+    public String main(Model m){
+        m.addAttribute("RecContent",contentService.getMostRecContent());
+        m.addAttribute("viewContent",contentService.getMostViewContent());
         return "member/main";
+    }
+
+    @PostMapping("/getTodayRecData")
+    @ResponseBody
+    public String getTodayRecData(){
+        List<ContentVO> todayRecData = contentService.getMostRecContent();
+        return TableModule.createTable(todayRecData,"recTable");
+    }
+
+    @PostMapping("/getTodayViewData")
+    @ResponseBody
+    public String getTodayViewData(){
+        List<ContentVO> todayViewData = contentService.getMostViewContent();
+        return TableModule.createTable(todayViewData,"viewTable");
+    }
+    @PostMapping("/getWeekRecData")
+    @ResponseBody
+    public String getWeeklyRecData() {
+        List<ContentVO> weeklyRecData = contentService.getWeekMostRec();
+        return TableModule.createTable(weeklyRecData,"recTable");
+    }
+
+    @PostMapping("/getWeekViewData")
+    @ResponseBody
+    public String getWeekViewData(){
+        List<ContentVO> weeklyViewData = contentService.getWeekMostView();
+        return TableModule.createTable(weeklyViewData,"viewTable");
+    }
+
+    @PostMapping("/getCategoryByContent")
+    @ResponseBody
+    public List<ContentVO> getCategoryByContent(@RequestParam("category")String category){
+        List<ContentVO> list = contentService.getCategoryByContent(category);
+        return list;
     }
 
 

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.board.demo.admin.mapper.NotifiedMapper">
+
+
+    <resultMap id="notifiedResultMap" type="com.board.demo.admin.vo.NotifiedVO">
+        <id property="id" column="id" />
+        <result property="title" column="title" />
+        <result property="content" column="content" />
+        <result property="author" column="author" />
+        <result property="createdDate" column="created_date" />
+        <result property="showYn" column="show_yn" />
+        <result property="notiImg" column="noti_img"/>
+    </resultMap>
+
+    <select id="selectNotified" resultMap="notifiedResultMap">
+        SELECT
+            *
+        FROM
+            NOTIFIED
+        ORDER BY
+            created_date DESC
+        LIMIT #{size} OFFSET #{start}
+    </select>
+
+    <select id="cntNotified" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            NOTIFIED
+        LIMIT #{size} OFFSET #{start}
+    </select>
+
+
+    <!--공지 사항 insert mySQL의 ON DUPLICATE KEY UPDATE문과 같음. -->
+    <insert id="insertOrUpdateNotified" parameterType="com.board.demo.admin.vo.NotifiedVO">
+        INSERT INTO
+            notified
+            (
+            title,
+            content,
+            author,
+            show_yn
+            )
+            VALUES
+                (
+                #{title},
+                #{content},
+                #{author},
+                'Y'
+                )
+        ON CONFLICT (id) DO UPDATE
+        SET
+            title = EXCLUDED.title,
+            content = EXCLUDED.content,
+            author = EXCLUDED.author
+    </insert>
+
+    <update id="updateNotifiedShowYn">
+        UPDATE
+            NOTIFIED
+        SET
+            show_yn = #{showYn}
+        WHERE
+            id = #{id}
+    </update>
+
+</mapper>

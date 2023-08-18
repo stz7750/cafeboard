@@ -46,6 +46,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(boardUserDetailsService);
     }
 
+
+    //시큐리티 하위폴더 인증 인가를 허가합니다.
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/static/css/**", "/static/js/**", "/static/img/**");

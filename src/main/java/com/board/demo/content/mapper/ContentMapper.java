@@ -36,4 +36,14 @@ public interface ContentMapper {
                          @Param("start")int start,@Param("size")int size);
 
     int viewUp(@Param("id")int id);
+
+    List<ContentVO> getTodayMostRec();
+
+    List<ContentVO> getTodayMostView();
+
+    List<ContentVO> getWeekMostRec();
+
+    List<ContentVO> getWeekMostView();
+
+    List<ContentVO> getCategoryByContent(@Param("category")String category);
 }

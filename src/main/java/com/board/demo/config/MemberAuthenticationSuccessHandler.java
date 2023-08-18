@@ -4,12 +4,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.board.demo.member.serivce.MemberService;
+import com.board.demo.member.vo.MemberVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @Component
 public class MemberAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
@@ -24,7 +28,9 @@ public class MemberAuthenticationSuccessHandler implements AuthenticationSuccess
         request.getSession().setAttribute("loggedInUsername", username);
 
         // 로그인 성공 후의 이동 경로를 설정합니다.
-        response.sendRedirect("/hello/main"); // 로그인 성공 시 이동할 URL을 지정해주세요.
+        response.sendRedirect("/hello/main");
+
+
     }
 }
 

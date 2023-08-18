@@ -16,6 +16,7 @@ import java.util.List;
 
 @Service
 public class MemberService {
+
     @Autowired
     MemberMapper mapper;
 
@@ -119,5 +120,9 @@ public class MemberService {
         } catch (Exception e){
             return -1;
         }
+    }
+
+    public void updateLastLogin(MemberVO vo){
+        mapper.updateLastLogin(vo);
     }
 }

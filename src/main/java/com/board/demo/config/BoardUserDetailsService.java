@@ -8,6 +8,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import com.board.demo.member.vo.MemberVO;
 
+import java.time.LocalDateTime;
+
 @Service
 public class BoardUserDetailsService implements UserDetailsService {
 
@@ -21,6 +23,10 @@ public class BoardUserDetailsService implements UserDetailsService {
         if (member == null) {
             throw new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다: " + memberId);
         }
+        MemberVO vo = new MemberVO();
+        vo.setLastLogin(LocalDateTime.now());
+        vo.setId(memberId);
+        MemberService.updateLastLogin(vo);
         return new SecurityUser(member);
     }
 }

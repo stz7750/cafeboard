@@ -75,4 +75,23 @@ public class ContentService {
         int result = contentMapper.updateContent(id, author, contentVO);
         return result > 0;
     }
+
+    public List<ContentVO> getMostRecContent(){
+        return contentMapper.getTodayMostRec();
+    }
+
+    public List<ContentVO> getMostViewContent(){
+        return contentMapper.getTodayMostView();
+    }
+
+    public List<ContentVO> getWeekMostRec(){
+        return contentMapper.getWeekMostRec();
+    }
+    public List<ContentVO> getWeekMostView(){
+        return contentMapper.getWeekMostView();
+    }
+
+    public List<ContentVO> getCategoryByContent(String category){
+        return contentMapper.getCategoryByContent(category);
+    }
 }
