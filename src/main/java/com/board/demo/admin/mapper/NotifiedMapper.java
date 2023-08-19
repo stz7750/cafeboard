@@ -14,5 +14,7 @@ public interface NotifiedMapper {
     List<NotifiedVO> selectNotified(@Param("start")int start,@Param("size")int size);
     int insertOrUpdateNotified(NotifiedVO vo);
 
+    Integer prevNotifiedNum();
+
     void updateNotifiedShowYn(@Param("id") int id, @Param("showYn") String showYn);
 }

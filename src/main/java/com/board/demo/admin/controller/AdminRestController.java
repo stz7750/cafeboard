@@ -19,9 +19,13 @@ public class AdminRestController {
     MemberService memberService;
 
     @PostMapping("/saveNotified")
-    public String saveNotified(@RequestBody NotifiedVO vo){
-        notifiedService.UpsertNotified(vo);
-        return "redirect:/admin/dashboard";
+    public int saveNotified(@RequestBody NotifiedVO vo){
+        int upsert = notifiedService.upsertNotified(vo);
+        if(upsert > 0){
+            return upsert;
+        }else{
+           return -1;
+        }
     }
 
     @PostMapping("/findMember")

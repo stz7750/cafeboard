@@ -13,6 +13,7 @@
         <result property="createdDate" column="created_date" />
         <result property="showYn" column="show_yn" />
         <result property="notiImg" column="noti_img"/>
+        <result property="notiNum" column="noti_num"/>
     </resultMap>
 
     <select id="selectNotified" resultMap="notifiedResultMap">
@@ -32,6 +33,18 @@
             NOTIFIED
         LIMIT #{size} OFFSET #{start}
     </select>
+    <!--이전 noti_num을 subString해서 가져옵니다. -->
+    <select id="prevNotifiedNum" resultType="java.lang.Integer">
+        SELECT
+            subString(noti_num, 13)
+        FROM
+            notified
+        WHERE
+            noti_num is not null
+        ORDER BY
+            id DESC
+        Limit 1
+    </select>
 
 
     <!--공지 사항 insert mySQL의 ON DUPLICATE KEY UPDATE문과 같음. -->
@@ -42,16 +55,18 @@
             title,
             content,
             author,
-            show_yn
+            show_yn,
+            noti_num
             )
             VALUES
-                (
-                #{title},
-                #{content},
-                #{author},
-                'Y'
-                )
-        ON CONFLICT (id) DO UPDATE
+            (
+            #{title},
+            #{content},
+            #{author},
+            'Y',
+            #{notiNum}
+            )
+        ON CONFLICT (noti_num) DO UPDATE
         SET
             title = EXCLUDED.title,
             content = EXCLUDED.content,

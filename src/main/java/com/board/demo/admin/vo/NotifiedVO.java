@@ -14,4 +14,5 @@ public class NotifiedVO {
     private LocalDateTime createdDate;
     private String showYn;
     private String notiImg;
+    private String notiNum;
 }

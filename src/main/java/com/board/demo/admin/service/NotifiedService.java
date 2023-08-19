@@ -10,6 +10,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -18,8 +20,28 @@ public class NotifiedService {
     @Autowired
     NotifiedMapper notifiedMapper;
 
-    public int UpsertNotified(NotifiedVO vo){
-        return notifiedMapper.insertOrUpdateNotified(vo);
+    public int upsertNotified(NotifiedVO vo){
+        //이전 가장 최신 id를 가져옵니다.
+        Integer count = notifiedMapper.prevNotifiedNum();
+        if(count == null || count == 0) {
+            count = 1;
+        }else{
+            count++;
+        }
+        LocalDate currentDate = LocalDate.now();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String formattedDate = currentDate.format(formatter);
+        String formatcount =String.format("%05d",count);
+        
+
+        vo.setNotiNum(formattedDate+"cafe"+formatcount);
+        int upsert =  notifiedMapper.insertOrUpdateNotified(vo);
+        if(upsert > 0){
+            return upsert;
+        }else{
+            return -1;
+        }
     }
 
 

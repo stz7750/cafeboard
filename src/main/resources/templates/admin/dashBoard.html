@@ -30,6 +30,7 @@
                 <table class="table" id="notifiedTable">
                     <thead>
                     <tr>
+                        <th>번호</th>
                         <th>제목</th>
                         <th>작성자</th>
                         <th>작성일</th>
@@ -40,12 +41,13 @@
                     <tbody id="notifiedTbody">
                     <th:block th:if="${notifiedList != null}">
                         <tr th:each="notified : ${notifiedList}">
-                            <td><a class="text-center" th:text="${notified.title}" data-bs-toggle="modal" data-bs-target="#popupModal"></a></td>
+                            <td th:text="${#strings.substring(notified.notiNum,13)}"></td>
+                            <td><a class="text-center" onclick="modifyNotified(this)" th:text="${notified.title}" data-bs-toggle="modal" data-bs-target="#popupModal" th:data-title="${notified.title}" th:data-content="${notified.content}"></a></td>
                             <td class="text-center" th:text="${notified.author}"></td>
                             <td class="text-center" th:text="${#temporals.format(notified.createdDate, 'yy.MM.dd')}"></td>
                             <td class="text-center">
-                                <button class="btn btn-success btn-sm" th:if="${notified.showYn == 'N'}" th:data-notified-id="${notified.id}" th:data-show-yn="${notified.showYn}" onclick="updateNotifiedShowYn(this)">공개</button>
-                                <button class="btn btn-secondary btn-sm" th:if="${notified.showYn == 'Y'}" th:data-notified-id="${notified.id}" th:data-show-yn="${notified.showYn}" onclick="updateNotifiedShowYn(this)">비공개</button>
+                                <button class="btn btn-success btn-sm" th:if="${notified.showYn == 'Y'}" th:data-notified-id="${notified.id}" th:data-show-yn="${notified.showYn}" onclick="updateNotifiedShowYn(this)">공개</button>
+                                <button class="btn btn-secondary btn-sm" th:if="${notified.showYn == 'N'}" th:data-notified-id="${notified.id}" th:data-show-yn="${notified.showYn}" onclick="updateNotifiedShowYn(this)">비공개</button>
                             </td>
                             <td class="text-center">
                                 <button class="btn btn-danger btn-sm" th:data-id="${notified.id}" onclick="deleteNotification(this)">삭제</button>
@@ -108,7 +110,7 @@
                 <p>회원 아아디: <span id="modalUserId"></span></p>
                 <p>회원 비밀번호: <span id="modalUserPassword"></span></p>
                 <p>회원 이메일: <span id="modalUserEmail"></span></p>
-                <p>회원 주소: <span id="modalUseraddr"></span></p>
+                <p>회원 주소: <span id="modalUserAddr"></span></p>
                 <p>회원 마지막 접속일: <span id="modalUserLastlogin"></span></p>
             </div>
             <div class="modal-footer">
@@ -132,6 +134,10 @@
                         <input type="hidden" th:value="${loggedInUsername}" id="adminId">
                         <label for="inputTitle" class="form-label">제목</label>
                         <input type="text" class="form-control" id="inputTitle" placeholder="제목을 입력하세요">
+                    </div>
+                    <div class="mb-3">
+                        <label for="notiImg" class="form-label">이미지</label>
+                        <input type="file" class="form-control" id="notiImg">
                     </div>
                     <div class="mb-3">
                         <label for="inputContent" class="form-label">내용</label>
@@ -165,10 +171,12 @@
                 data: JSON.stringify(data),
                 success: function(response) {
                     console.log(response);
-                    alert("공지사항 추가 성공:", response);
+                    alert("공지사항 추가 성공");
+                    $('#popupModal').modal('hide');
+                    location.reload();
                 },
                 error: function(error) {
-                    console.error("공지사항 추가 실패:", error);
+                    console.error("공지사항 추가 실패");
                 }
             });
         }
@@ -183,15 +191,26 @@
                     memberId: memberId
                 },
                 success: function(response) {
-                    console.log(response);
-                    alert("회원 정보를 찾았습니다.");
-                    $("#modalUserName").text(response.name+"님의 정보");
-                    $("#modalUserId").text(response.id);
-                    $("#modalUserPassword").text(response.password);
-                    $("#modalUserEmail").text(response.email);
-                    $("#modalUserAddr").text(response.address);
-                    $("#modalUserLastLogin").text(response.last_login.substring(0, 10));
-
+                    if(response != null){
+                        console.log(response);
+                        alert("회원 정보를 찾았습니다.");
+                        $("#modalUserName").text(response.name+"님의 정보");
+                        $("#modalUserId").text(response.id);
+                        $("#modalUserPassword").text(response.password);
+                        $("#modalUserEmail").text(response.email);
+                        $("#modalUserAddr").text(response.address);
+                        // date 타입으로 변환 후 원하는 형태의 데이터로 가공합니다.
+                        var date = new Date(response.lastLogin);
+                        var formattedDate = date.getFullYear() + "-" +
+                        ("0" + (date.getMonth() + 1)).slice(-2) + "-" +
+                        ("0" + date.getDate()).slice(-2) + " " +
+                        ("0" + date.getHours()).slice(-2) + "시" +
+                        ("0" + date.getMinutes()).slice(-2) + "분" +
+                        ("0" + date.getSeconds()).slice(-2) + "초";
+                        $("#modalUserLastlogin").text(formattedDate);
+                    }else{
+                        alert("회원을 찾을 수 없습니다.");
+                    }
                 },
                 error: function(error) {
                     alert("알 수 없는 오류로 실패하였습니다.");
@@ -213,9 +232,9 @@
                 newShowYn = "Y";
             }
 
-            var userConfirmed = confirm(confirmMessage);
+            var Confirmed = confirm(confirmMessage);
 
-            if (userConfirmed) {
+            if (Confirmed) {
                 $.ajax({
                     type: "POST",
                     url: "/management/updateNotifiedShowYn",
@@ -223,11 +242,11 @@
                     success: function (response) {
                         var newShowYn = $(button).data("show-yn");
                         if(newShowYn == 'Y'){
-                            $(button).removeClass("btn-secondary").addClass("btn-success");
-                            $(button).text("공개");
-                        }else{
                             $(button).removeClass("btn-success").addClass("btn-secondary");
                             $(button).text("비공개");
+                        }else{
+                            $(button).removeClass("btn-secondary").addClass("btn-success");
+                            $(button).text("공개");
                         }
                         alert("완료되었습니다.");
 
@@ -237,6 +256,14 @@
                     }
                 });
             }
+        }
+
+        //기존에 입력된 데이터를 가져옵니다. 그 후 저장 버튼을 누르면 ON CONFLICT (noti_num) DO UPDATE가 실행 됩니다.
+        function modifyNotified(aTag){
+            var title = $(aTag).data("title");
+            var content = $(aTag).data("content");
+            $("#inputTitle").val(title);
+            $("#inputContent").val(content);
         }
 
 </script>
