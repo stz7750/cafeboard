@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.board.demo.admin.mapper.NotifiedMapper">
+<mapper namespace="com.board.demo.admin.mapper.AdminNotifiedMapper">
 
 
     <resultMap id="notifiedResultMap" type="com.board.demo.admin.vo.NotifiedVO">
@@ -31,7 +31,6 @@
             COUNT(*)
         FROM
             NOTIFIED
-        LIMIT #{size} OFFSET #{start}
     </select>
     <!--이전 noti_num을 subString해서 가져옵니다. -->
     <select id="prevNotifiedNum" resultType="java.lang.Integer">
@@ -70,7 +69,8 @@
         SET
             title = EXCLUDED.title,
             content = EXCLUDED.content,
-            author = EXCLUDED.author
+            author = EXCLUDED.author,
+            modify_id = EXCLUDED.modify_id
     </insert>
 
     <update id="updateNotifiedShowYn">
@@ -81,5 +81,13 @@
         WHERE
             id = #{id}
     </update>
+
+    <delete id="deleteNotification">
+        DELETE
+        FROM
+            NOTIFIED
+        WHERE
+            id = ${id}
+    </delete>
 
 </mapper>

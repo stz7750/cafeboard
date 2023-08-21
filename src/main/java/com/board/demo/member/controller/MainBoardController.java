@@ -33,11 +33,15 @@ public class MainBoardController {
     @Autowired
     ContentService contentService;
 
+    private final String test_img = "/Users/gimtaehun/Downloads/";
+
     //메인 페이지
     @GetMapping("main")
     public String main(Model m){
         m.addAttribute("RecContent",contentService.getMostRecContent());
         m.addAttribute("viewContent",contentService.getMostViewContent());
+        m.addAttribute("mainNotified",service.notifiedMain());
+        m.addAttribute("testImgPath",test_img);
         return "member/main";
     }
 

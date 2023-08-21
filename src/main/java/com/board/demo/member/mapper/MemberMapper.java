@@ -1,6 +1,7 @@
 package com.board.demo.member.mapper;
 
 
+import com.board.demo.admin.vo.NotifiedVO;
 import com.board.demo.content.vo.ContentVO;
 import com.board.demo.member.vo.MemberVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -38,5 +39,7 @@ public interface MemberMapper {
     int monthMemberRec(@Param("author")String author);
 
     void updateLastLogin(MemberVO vo);
+
+    List<NotifiedVO> notifiedMain();
 
 }

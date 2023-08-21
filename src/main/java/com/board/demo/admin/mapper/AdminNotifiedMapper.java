@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 @Mapper
-public interface NotifiedMapper {
+public interface AdminNotifiedMapper {
 
     int cntNotified(@Param("start")int start, @Param("size")int size);
     List<NotifiedVO> selectNotified(@Param("start")int start,@Param("size")int size);
@@ -17,4 +17,6 @@ public interface NotifiedMapper {
     Integer prevNotifiedNum();
 
     void updateNotifiedShowYn(@Param("id") int id, @Param("showYn") String showYn);
+
+    int deleteNotification(int id);
 }

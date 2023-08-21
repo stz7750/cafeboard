@@ -15,4 +15,5 @@ public class NotifiedVO {
     private String showYn;
     private String notiImg;
     private String notiNum;
+    private String modifyId;
 }

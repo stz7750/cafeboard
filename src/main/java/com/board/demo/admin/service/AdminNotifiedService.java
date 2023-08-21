@@ -1,9 +1,8 @@
 package com.board.demo.admin.service;
 
 
-import com.board.demo.admin.mapper.NotifiedMapper;
+import com.board.demo.admin.mapper.AdminNotifiedMapper;
 import com.board.demo.admin.vo.NotifiedVO;
-import com.board.demo.content.vo.ContentVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -15,10 +14,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
-public class NotifiedService {
+public class AdminNotifiedService {
 
     @Autowired
-    NotifiedMapper notifiedMapper;
+    AdminNotifiedMapper notifiedMapper;
 
     public int upsertNotified(NotifiedVO vo){
         //이전 가장 최신 id를 가져옵니다.
@@ -34,8 +33,9 @@ public class NotifiedService {
         String formattedDate = currentDate.format(formatter);
         String formatcount =String.format("%05d",count);
         
-
-        vo.setNotiNum(formattedDate+"cafe"+formatcount);
+        if(vo.getNotiNum() == null || vo.getNotiNum().isEmpty()) {
+            vo.setNotiNum(formattedDate + "cafe" + formatcount);
+        }
         int upsert =  notifiedMapper.insertOrUpdateNotified(vo);
         if(upsert > 0){
             return upsert;
@@ -57,5 +57,19 @@ public class NotifiedService {
     public void updateNotifiedShowYn(int id, String showYn) {
         notifiedMapper.updateNotifiedShowYn(id, showYn);
     }
+
+    public boolean deleteNotification(int id)throws Exception{
+        int deleteNotification = notifiedMapper.deleteNotification(id);
+        try {
+            if(deleteNotification == 1){
+                return true;
+            }else{
+                return false;
+            }
+        }catch (Exception e){
+            return false;
+        }
+    }
+
 
 }

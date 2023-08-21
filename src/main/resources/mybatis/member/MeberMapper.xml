@@ -11,6 +11,19 @@
             MEMBER;
     </select>
 
+    <select id="notifiedMain" resultType="com.board.demo.admin.vo.NotifiedVO">
+        SELECT
+            id,
+            title,
+            content,
+            created_date as createdDate,
+            noti_img as notiImg
+        FROM
+            NOTIFIED
+        WHERE
+            show_yn = 'Y'
+    </select>
+
     <select id="findByUserinfo" resultType="com.board.demo.member.vo.MemberVO">
         SELECT
             id,

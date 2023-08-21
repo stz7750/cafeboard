@@ -1,6 +1,7 @@
 package com.board.demo.member.serivce;
 
 
+import com.board.demo.admin.vo.NotifiedVO;
 import com.board.demo.content.vo.ContentVO;
 import com.board.demo.member.mapper.MemberMapper;
 import com.board.demo.member.vo.MemberVO;
@@ -124,5 +125,9 @@ public class MemberService {
 
     public void updateLastLogin(MemberVO vo){
         mapper.updateLastLogin(vo);
+    }
+
+    public List<NotifiedVO> notifiedMain(){
+        return mapper.notifiedMain();
     }
 }

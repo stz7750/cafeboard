@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        .pagination .page-item .page-link {
+            color: black;
+        }
+
+        .pagination .page-item .page-link:hover {
+            background-color: black;
+            color: white;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: black;
+            border-color: black;
+        }
+    </style>
+</head>
+<body>
+<nav aria-label="Page navigation example" th:if="${list != null and !list.isEmpty()}">
+    <ul class="pagination pagination-sm justify-content-center">
+        <li class="page-item">
+            <a class="page-link" th:href="@{|?page=${list.number-1 > 0 ? list.number-1 : 0}|}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <li class="page-item" th:each="page : ${#numbers.sequence(list.number - 5 > 0 ? list.number - 5 : 0, list.number + 4 < list.totalPages ? list.number + 4 : list.totalPages - 1)}"
+            th:classappend="${page == list.number ? 'page-item active' : 'page-item'}">
+            <a class="page-link" th:text="${page + 1}" th:href="@{|?page=${page + 1}|}"></a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" aria-label="Next" th:href="@{|?page=${list.number + 1}|}">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+</body>
+</html>
