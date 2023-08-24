@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.14'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'war'                // WAR 파일 생성 플러그인 추가
 }
 
 group = 'com.board'
@@ -34,6 +35,11 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	compileOnly 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4:1.16'
 	annotationProcessor 'org.projectlombok:lombok'
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+}
+
+bootJar {
+	enabled = false         // 기본적으로 생성되는 JAR 파일 사용하지 않음
 }
 
 tasks.named('test') {

@@ -17,11 +17,13 @@
             title,
             content,
             created_date as createdDate,
-            noti_img as notiImg
+            noti_img_name as notiImgName
         FROM
             NOTIFIED
         WHERE
             show_yn = 'Y'
+        ORDER BY
+            created_date DESC
     </select>
 
     <select id="findByUserinfo" resultType="com.board.demo.member.vo.MemberVO">

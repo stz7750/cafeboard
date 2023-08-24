@@ -13,6 +13,8 @@ public class GlobalControllerAdvice {
     @ModelAttribute
     public void addLoggedInUsernameToModel(Model model, HttpServletRequest request) {
         String loggedInUsername = (String) request.getSession().getAttribute("loggedInUsername");
+        String loggedInUserRole = (String) request.getSession().getAttribute("loggedInUserRole");
+        model.addAttribute("loggedInUserRole",loggedInUserRole);
         model.addAttribute("loggedInUsername", loggedInUsername);
     }
 }

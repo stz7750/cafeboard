@@ -1,6 +1,7 @@
 package com.board.demo.member.controller;
 
 
+import com.board.demo.admin.vo.NotifiedVO;
 import com.board.demo.content.service.ContentService;
 import com.board.demo.content.vo.ContentVO;
 import com.board.demo.TableModule;
@@ -8,6 +9,7 @@ import com.board.demo.member.serivce.MemberService;
 import com.board.demo.member.vo.AjaxPageResponse;
 import com.board.demo.member.vo.MemberVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,15 +35,17 @@ public class MainBoardController {
     @Autowired
     ContentService contentService;
 
-    private final String test_img = "/Users/gimtaehun/Downloads/";
+    @Value("${file.upload-dir}")
+    private String uploadDir;
 
     //메인 페이지
     @GetMapping("main")
     public String main(Model m){
+        List<NotifiedVO> mainNotifiedList = service.notifiedMain();
         m.addAttribute("RecContent",contentService.getMostRecContent());
         m.addAttribute("viewContent",contentService.getMostViewContent());
-        m.addAttribute("mainNotified",service.notifiedMain());
-        m.addAttribute("testImgPath",test_img);
+        m.addAttribute("mainNotified",mainNotifiedList);
+        m.addAttribute("notiPath",uploadDir);
         return "member/main";
     }
 

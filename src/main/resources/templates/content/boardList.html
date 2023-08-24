@@ -33,7 +33,7 @@
                 <th>추천수</th>
             </tr>
         </thead>
-        <tbody th:if="${boardContent != null and boardContent.numberOfElements > 0}" th:with="number=${boardContent.TotalElements - boardContent.number * boardContent.size}">>
+        <tbody th:if="${boardContent != null and boardContent.numberOfElements > 0}" th:with="number=${boardContent.TotalElements - boardContent.number * boardContent.size}">
             <tr th:each="content, status : ${boardContent}">
                 <td th:text="${number - status.index}"></td>
                 <td>
@@ -72,7 +72,7 @@
         </ul>
     </nav>
 
-
+<div th:replace="~{commons/footer :: footer}"></div>
 </div>
 </body>
 </html>

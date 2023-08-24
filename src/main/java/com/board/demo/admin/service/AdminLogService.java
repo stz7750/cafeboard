@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,9 @@ public class AdminLogService {
 
     @Autowired
     AdminLogMapper logMapper;
+
+    @Autowired
+    SessionRegistry sessionRegistry;
 
     public Page<AdminLogVO> getAdminLogPaging(int page,int size){
         final int start = (page -1)*size;
@@ -30,5 +34,11 @@ public class AdminLogService {
 
     public int insertAdminLog(AdminLogVO vo){
         return logMapper.insertAdminLog(vo);
+    }
+
+
+    // spring security sessionRegistry 세션들을 저장 해놓는 역할을 한다.
+    public int getLoggedInUserCount() {
+        return sessionRegistry.getAllPrincipals().size();
     }
 }

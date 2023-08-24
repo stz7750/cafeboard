@@ -7,6 +7,7 @@ import com.board.demo.member.serivce.MemberService;
 import com.board.demo.member.vo.MemberVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/management")
@@ -19,8 +20,20 @@ public class AdminRestController {
     MemberService memberService;
 
     @PostMapping("/saveNotified")
-    public int saveNotified(@RequestBody NotifiedVO vo){
-        int upsert = adminNotifiedService.upsertNotified(vo);
+    public int saveNotified(@RequestParam("title") String title,
+                            @RequestParam("content") String content,
+                            @RequestParam("author") String author,
+                            @RequestParam("notiNum") String notiNum,
+                            @RequestParam("modify_id") String modifyId,
+                            @RequestParam("notiImg") MultipartFile notiImg){
+        NotifiedVO vo = new NotifiedVO();
+        vo.setTitle(title);
+        vo.setContent(content);
+        vo.setAuthor(author);
+        vo.setNotiNum(notiNum);
+        vo.setModifyId(modifyId);
+
+        int upsert = adminNotifiedService.upsertNotified(vo,notiImg);
         if(upsert > 0){
             return upsert;
         }else{

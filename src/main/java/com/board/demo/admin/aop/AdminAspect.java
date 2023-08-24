@@ -60,8 +60,8 @@ public class AdminAspect {
                 }else if(methodName.equals("saveNotified") && parameterNames[i].equals("vo")){
                     NotifiedVO vo = (NotifiedVO) args[i];
                     String title = vo.getTitle();
-                    String notiNum = vo.getNotiNum();
-                    if(notiNum.isEmpty() || notiNum == null) {
+                    String modifyId = vo.getModifyId();
+                    if(modifyId.isEmpty() || modifyId == null) {
                         AdminLogVO log = new AdminLogVO();
                         log.setId(id);
                         log.setDescription(id + "님이 공지글을 작성하였습니다. (제목: \"  "+title+"  \")");

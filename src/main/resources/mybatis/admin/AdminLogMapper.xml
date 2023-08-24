@@ -12,6 +12,8 @@
             record_date as recordDate
         FROM
             admin_log
+        ORDER BY
+            record_date DESC
         LIMIT #{size} OFFSET #{start}
     </select>
 

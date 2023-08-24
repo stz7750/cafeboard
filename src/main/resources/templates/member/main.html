@@ -25,7 +25,7 @@
                         <th:block th:each="item, itemStat : ${mainNotified}">
                             <div class="carousel-item" th:classappend="${itemStat.index == 0 ? 'active' : ''}">
                                 <!-- 이미지 -->
-                                <img th:src="@{/static/img/test-img.jpg}" class="d-block w-100" alt="..." style="height: 400px;">
+                                <img src="/static/img/test-img.jpg"  class="d-block w-100" alt="Notification Image" style="height: 400px;">
                                 <div class="carousel-caption d-none d-md-block">
                                     <h5 th:text="${item.title}" style="color: black;"></h5>
                                     <p th:text="${item.content}" style="color: black;"></p>
@@ -178,6 +178,7 @@
         </div>
     </div>
 </div>
+<div th:replace="~{commons/footer :: footer}"></div>
 <script>
 $(document).ready(function() {
     $("#recAnchorMonth").click(function() {

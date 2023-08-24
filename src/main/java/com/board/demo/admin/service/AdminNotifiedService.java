@@ -3,12 +3,15 @@ package com.board.demo.admin.service;
 
 import com.board.demo.admin.mapper.AdminNotifiedMapper;
 import com.board.demo.admin.vo.NotifiedVO;
+import com.board.demo.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -19,7 +22,20 @@ public class AdminNotifiedService {
     @Autowired
     AdminNotifiedMapper notifiedMapper;
 
-    public int upsertNotified(NotifiedVO vo){
+    @Autowired
+    private FileStorageService fileStorageService;
+
+    public int upsertNotified(NotifiedVO vo, MultipartFile notiImg){
+
+        String fileName = null;
+        try {
+            if (notiImg != null && !notiImg.isEmpty()) {
+                fileName = fileStorageService.storeFile(notiImg);
+                vo.setNotiImgName(fileName);
+            }
+        }catch (IOException I){
+            System.err.println("파일 저장 실패");
+        }
         //이전 가장 최신 id를 가져옵니다.
         Integer count = notifiedMapper.prevNotifiedNum();
         if(count == null || count == 0) {
