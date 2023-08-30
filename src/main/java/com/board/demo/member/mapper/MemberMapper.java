@@ -26,7 +26,7 @@ public interface MemberMapper {
 
     int memberContentListCnt(@Param("author")String author);
 
-    int memberRecCount(@Param("author")String author);
+    Integer memberRecCount(@Param("author")String author);
 
     int deleteMemberContent(@Param("id")int id,@Param("author")String author);
 

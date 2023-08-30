@@ -2,25 +2,12 @@ package com.board.demo;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.Objects;
-
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
 @Service
@@ -29,10 +16,9 @@ public class FileStorageService {
     @Value("${file.upload-dir}") // application.properties에서 설정한 디렉토리 경로
     private String uploadDir;
 
-
     public String storeFile(MultipartFile file) throws IOException {
         // 저장할 디렉토리 경로를 가져와 Path 객체로 생성
-        Path dirPath = Path.of(uploadDir).toAbsolutePath().normalize();
+        Path dirPath = Paths.get(uploadDir).toAbsolutePath().normalize();
 
         // 디렉토리가 존재하지 않으면 생성
         if (!Files.exists(dirPath)) {
@@ -52,6 +38,3 @@ public class FileStorageService {
         }
     }
 }
-
-
-

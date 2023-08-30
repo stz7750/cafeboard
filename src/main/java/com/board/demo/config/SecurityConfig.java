@@ -31,10 +31,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/hello/login","/hello/entry").permitAll() // 로그인 페이지는 모든 사용자에게 허용
+                .antMatchers("/","/hello/login","/hello/entry","/hello/signUp").permitAll() // 로그인 페이지는 모든 사용자에게 허용
                 .antMatchers("/static/css/**", "/static/js/**", "/static/img/**").permitAll() // CSS, JS, 이미지 파일은 모든 사용자에게 허용
                 .antMatchers(uploadDir + "/**").permitAll()
-                .antMatchers("/admin/dashBoard").hasAnyRole("RICH_MEM","ADMIN")
+                .antMatchers("/admin/dashBoard").hasAnyRole("ROLE_ADMIN")
                 .anyRequest().authenticated() // 로그인이 필요한 요청은 인증 필요
                 .and()
                 .formLogin()
@@ -73,6 +73,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public SessionRegistry sessionRegistry() {
         return new SessionRegistryImpl();
     }
-
 }
-

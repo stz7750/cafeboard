@@ -8,6 +8,7 @@ import com.board.demo.TableModule;
 import com.board.demo.member.serivce.MemberService;
 import com.board.demo.member.vo.AjaxPageResponse;
 import com.board.demo.member.vo.MemberVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -24,9 +25,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 
-
+@Slf4j
 @Controller
-@RequestMapping("hello")
+@RequestMapping("/hello")
 public class MainBoardController {
 
     @Autowired
@@ -91,11 +92,10 @@ public class MainBoardController {
     }
 
     //회원 insert
-    @PostMapping("signUp")
-    public String welcome(Model m,MemberVO vo){
-        //회원가입 시 입력했던 정보를 insert 합니다.
+    @PostMapping("/signUp")
+    public String welcome(MemberVO vo){
         service.addMember(vo);
-        return "member/login";
+        return "/member/login";
     }
 
     //로그인
@@ -103,6 +103,7 @@ public class MainBoardController {
     public String login(){
         return "/member/login";
     }
+
 
     //로그아웃
     @GetMapping("logout")

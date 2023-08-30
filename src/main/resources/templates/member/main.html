@@ -75,7 +75,7 @@
                 <th:block th:if="${!#lists.isEmpty(RecContent)}" th:each="content : ${RecContent}">
                     <tr>
                         <td th:text="${content.category}" class="text-center"></td>
-                        <td><a th:href="@{/content/view/{id}(id=${content.id})}" th:text="${content.title}" class="text-center"></a></td>
+                        <td><a th:href="@{/content/boardView?id=${content.id}}" th:text="${content.title}" class="text-center"></a></td>
                         <td th:text="${content.author}" class="text-center"></td>
                         <td th:text="${#temporals.format(content.creDate, 'yy.MM.dd')}" class="text-center"></td>
                         <td th:text="${content.recCount}" class="text-center"></td>
@@ -116,7 +116,7 @@
                 <th:block th:if="${!#lists.isEmpty(viewContent)}" th:each="content : ${viewContent}">
                     <tr>
                         <td th:text="${content.category}" class="text-center"></td>
-                        <td><a th:href="@{/content/view/{id}(id=${content.id})}" th:text="${content.title}" class="text-center"></a></td>
+                        <td><a th:href="@{/content/boardView?id=${content.id}}" th:text="${content.title}" class="text-center"></a></td>
                         <td th:text="${content.author}" class="text-center"></td>
                         <td th:text="${#temporals.format(content.creDate, 'yy.MM.dd')}" class="text-center"></td>
                         <td th:text="${content.views}" class="text-center"></td>
@@ -248,7 +248,7 @@ $(document).ready(function() {
                     data.forEach(function(content) {
                         var row = $("<tr></tr>");
                         row.append("<td class='text-center'>" + content.category + "</td>");
-                        row.append("<td style='text-align: center;'><a href='/content/view/" + content.id + "' style='text-decoration: none; color: black;'>" + content.title + "</a></td>");
+                        row.append("<td style='text-align: center;'><a href='/content/boardView?id=" + content.id + "' style='text-decoration: none; color: black;'>" + content.title + "</a></td>");
                         row.append("<td class='text-center'>" + content.author + "</td>");
                         row.append("<td class='text-center'>" + formatDateTime(content.creDate) + "</td>");
                         row.append("<td class='text-center'>" + content.views + "</td>");

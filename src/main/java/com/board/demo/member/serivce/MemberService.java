@@ -25,7 +25,6 @@ public class MemberService {
         return mapper.selectMember();
     }
 
-    @Transactional
     public int addMember(MemberVO vo){
         //회원의 레벨의 member로 기본적으로 설정합니다.
         vo.setLevel("member");
@@ -51,7 +50,7 @@ public class MemberService {
         return mapper.memberContentListCnt(author);
     }
 
-    public int memberRecCount(String author){
+    public Integer memberRecCount(String author){
         return mapper.memberRecCount(author);
     }
     @Transactional

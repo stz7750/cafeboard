@@ -16,7 +16,7 @@ public class TableModule {
             for (ContentVO content : dataList) {
                 htmlBuilder.append("<tr>");
                 htmlBuilder.append("<td class=\"text-center\">").append(content.getCategory()).append("</td>");
-                htmlBuilder.append("<td style=\"text-align: center;\"><a href=\"/content/view/").append(content.getId()).append("\" style=\"text-decoration: none; color: black;\">").append(content.getTitle()).append("</a></td>");
+                htmlBuilder.append("<td style=\"text-align: center;\"><a href=\"/content/boardView?id=").append(content.getId()).append("\" style=\"text-decoration: none; color: black;\">").append(content.getTitle()).append("</a></td>");
                 htmlBuilder.append("<td style=\"text-align: center;\">").append(content.getAuthor()).append("</td>");
                 htmlBuilder.append("<td class=\"text-center\">").append(content.getCreDate().format(DateTimeFormatter.ofPattern("yy.MM.dd"))).append("</td>");
                 if (tableName.equals("recTable")) {
