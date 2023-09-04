@@ -34,18 +34,23 @@
     </tr>
     </thead>
     <tbody th:if="${searchContent != null and searchContent.numberOfElements > 0}" th:with="number=${searchContent.TotalElements - searchContent.number * searchContent.size}">>
-    <tr th:each="content, status : ${searchContent}">
-      <td th:text="${number - status.index}"></td>
-      <td>
-        <a th:href="@{${content.author == loggedInUsername} ? '/content/modify?id=' + ${content.id} + '&author=' + ${content.author} : '/content/boardView?id=' + ${content.id}}"
-           th:text="${content.title}" style="text-decoration: none; color: black;">
-        </a>
-      </td>
-      <td th:text="${content.author}">태훈</td>
-      <td th:text="${#temporals.format(content.creDate, 'yy.MM.dd')}">2023.08.01</td>
-      <td th:text="${content.views}">8</td>
-      <td th:text="${content.recCount}"></td>
-    </tr>
+        <tr th:each="content, status : ${searchContent}">
+            <td th:text="${number - status.index}"></td>
+            <td>
+              <a th:href="@{${content.author == loggedInUsername} ? '/content/modify?id=' + ${content.id} + '&author=' + ${content.author} : '/content/boardView?id=' + ${content.id}}"
+                 th:text="${content.title}" style="text-decoration: none; color: black;">
+              </a>
+            </td>
+            <td th:text="${content.author}">태훈</td>
+            <td th:text="${#temporals.format(content.creDate, 'yy.MM.dd')}">2023.08.01</td>
+            <td th:text="${content.views}">8</td>
+            <td th:text="${content.recCount}"></td>
+        </tr>
+    </tbody>
+    <tbody th:unless="${searchContent != null and searchContent.numberOfElements > 0}">
+        <tr>
+          <td colspan="6" style="text-align: center;">데이터가 없습니다.</td>
+        </tr>
     </tbody>
   </table>
 

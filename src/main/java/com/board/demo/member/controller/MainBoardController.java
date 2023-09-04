@@ -41,13 +41,20 @@ public class MainBoardController {
 
     //메인 페이지
     @GetMapping("main")
-    public String main(Model m){
+    public String main(Model m) throws Exception{
         List<NotifiedVO> mainNotifiedList = service.notifiedMain();
         m.addAttribute("RecContent",contentService.getMostRecContent());
         m.addAttribute("viewContent",contentService.getMostViewContent());
         m.addAttribute("mainNotified",mainNotifiedList);
         m.addAttribute("notiPath",uploadDir);
         return "member/main";
+    }
+
+    @GetMapping("/getRankRecData")
+    @ResponseBody
+    public List<ContentVO> getRankRecData() throws Exception {
+        List<ContentVO> rankRecData = contentService.getRankingRec();
+        return rankRecData;
     }
 
     @PostMapping("/getTodayRecData")
@@ -102,6 +109,12 @@ public class MainBoardController {
     @GetMapping("login")
     public String login(){
         return "/member/login";
+    }
+
+    //접근 불가 시 커스텀 에러 페이지
+    @GetMapping("/forbidden")
+    public String forbidden(){
+        return "/commons/error";
     }
 
 

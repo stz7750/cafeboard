@@ -7,6 +7,8 @@
     <script type="text/javascript" src="/static/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="/static/js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="/static/js/header.js"></script>
+    <!--htmx script tag -->
+    <script src="https://unpkg.com/htmx.org@1.8.6"></script>
 </head>
 <body>
 <!-- 공통 헤더 부분-->
@@ -169,96 +171,132 @@
             </table>
         </div>
 
-        <!-- 공지? 게시물 -->
         <div class="col-md-6 text-md-end">
-            <h2>Table 4</h2>
+            <h2>인기 멤버</h2>
+            <button id="reloadData">새로고침</button>
             <table class="table">
-                <!-- 테이블 내용 -->
+                <thead>
+                <tr>
+                    <th>순위</th>
+                    <th>작성자</th>
+                    <th>총 추천수</th>
+                </tr>
+                </thead>
+                <tbody id="RankTbody">
+                </tbody>
             </table>
         </div>
     </div>
 </div>
 <div th:replace="~{commons/footer :: footer}"></div>
-<script>
-$(document).ready(function() {
-    $("#recAnchorMonth").click(function() {
-        $(this).addClass("active");
-        $("#recAnchorToday").removeClass("active");
-        updateTable("getWeekRecData", "recTbody");
-    });
+    <script>
+        $(document).ready(function() {
+            $("#recAnchorMonth").click(function() {
+                $(this).addClass("active");
+                $("#recAnchorToday").removeClass("active");
+                updateTable("getWeekRecData", "recTbody");
+            });
 
-    $("#recAnchorToday").click(function(){
-        $(this).addClass("active");
-        $("#recAnchorMonth").removeClass("active");
-        updateTable("getTodayRecData","recTbody");
-    });
+            $("#recAnchorToday").click(function(){
+                $(this).addClass("active");
+                $("#recAnchorMonth").removeClass("active");
+                updateTable("getTodayRecData","recTbody");
+            });
 
-    $("#viewAnchorToday").click(function(){
-        $(this).addClass("active");
-        $("#viewAnchorToday").removeClass("active");
-        updateTable("getTodayViewData","viewTbody");
-    });
+            $("#viewAnchorToday").click(function(){
+                $(this).addClass("active");
+                $("#viewAnchorToday").removeClass("active");
+                updateTable("getTodayViewData","viewTbody");
+            });
 
-    $("#viewAnchorMonth").click(function() {
-        $(this).addClass("active");
-        $("#viewAnchorToday").removeClass("active");
-        updateTable("getWeekViewData", "viewTbody");
-    });
+            $("#viewAnchorMonth").click(function() {
+                $(this).addClass("active");
+                $("#viewAnchorToday").removeClass("active");
+                updateTable("getWeekViewData", "viewTbody");
+            });
 
-    function updateTable(url, tbodyId) {
+            function updateTable(url, tbodyId) {
 
-        $.ajax({
-            url: url,
-            type: "POST",
-            success: function(data) {
-                $("#" + tbodyId).html(data);
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    success: function(data) {
+                        $("#" + tbodyId).html(data);
+                    }
+                });
             }
+
+            $(".category-link[data-category='all']").addClass("active");
+            updateCategoryTable("all");
+
+            $(".category-link").click(function() {
+                $(".category-link").removeClass("active");
+                $(this).addClass("active");
+                var category = $(this).data("category");
+                updateCategoryTable(category);
+            });
+
+            function formatDateTime(dateTime) {
+                var datePart = dateTime.split("T")[0];
+                var formattedDate = datePart.replace(/-/g,".");
+                return formattedDate;
+            }
+
+
+            function updateCategoryTable(category) {
+                $.ajax({
+                    url: "getCategoryByContent",
+                    type: "POST",
+                    data: { category: category },
+                    success: function(data) {
+                        var tableBody = $("#categoryTbody");
+                        tableBody.empty();
+
+                        if (data.length === 0) {
+                            tableBody.append("<tr><td colspan='5'>데이터가 없습니다.</td></tr>");
+                        } else {
+                            data.forEach(function(content) {
+                                var row = $("<tr></tr>");
+                                row.append("<td class='text-center'>" + content.category + "</td>");
+                                row.append("<td style='text-align: center;'><a href='/content/boardView?id=" + content.id + "' style='text-decoration: none; color: black;'>" + content.title + "</a></td>");
+                                row.append("<td class='text-center'>" + content.author + "</td>");
+                                row.append("<td class='text-center'>" + formatDateTime(content.creDate) + "</td>");
+                                row.append("<td class='text-center'>" + content.views + "</td>");
+                                tableBody.append(row);
+                            });
+                        }
+                    }
+                });
+            }
+            loadRecData();
         });
-    }
 
-    $(".category-link[data-category='all']").addClass("active");
-    updateCategoryTable("all");
+        function loadRecData(){
+            var tbody = $("#RankTbody");
 
-    $(".category-link").click(function() {
-        $(".category-link").removeClass("active");
-        $(this).addClass("active");
-        var category = $(this).data("category");
-        updateCategoryTable(category);
-    });
-
-    function formatDateTime(dateTime) {
-        var datePart = dateTime.split("T")[0];
-        var formattedDate = datePart.replace(/-/g,".");
-        return formattedDate;
-    }
-
-
-    function updateCategoryTable(category) {
-        $.ajax({
-            url: "getCategoryByContent",
-            type: "POST",
-            data: { category: category },
-            success: function(data) {
-                var tableBody = $("#categoryTbody");
-                tableBody.empty();
-
-                if (data.length === 0) {
-                    tableBody.append("<tr><td colspan='5'>데이터가 없습니다.</td></tr>");
-                } else {
-                    data.forEach(function(content) {
+            // AJAX 요청을 보냅니다.
+            $.ajax({
+                type: "GET",
+                url: "/hello/getRankRecData",
+                success: function(data) {
+                    tbody.empty();
+                    $.each(data, function(index, member) {
                         var row = $("<tr></tr>");
-                        row.append("<td class='text-center'>" + content.category + "</td>");
-                        row.append("<td style='text-align: center;'><a href='/content/boardView?id=" + content.id + "' style='text-decoration: none; color: black;'>" + content.title + "</a></td>");
-                        row.append("<td class='text-center'>" + content.author + "</td>");
-                        row.append("<td class='text-center'>" + formatDateTime(content.creDate) + "</td>");
-                        row.append("<td class='text-center'>" + content.views + "</td>");
-                        tableBody.append(row);
+                        row.append("<td>" + (index + 1) + "</td>"); // 순위
+                        row.append("<td>" + member.author + "</td>"); // 작성자
+                        row.append("<td>" + member.recCount + "</td>"); // 총 추천수
+                        tbody.append(row);
                     });
+                },
+                error: function() {
+                    console.error("데이터를 가져오는 중에 오류가 발생했습니다.");
                 }
-            }
+            });
+        }
+
+        $("#reloadData").on("click",function(){
+            loadRecData();
         });
-    }
-});
-</script>
+    </script>
 </body>
 </html>

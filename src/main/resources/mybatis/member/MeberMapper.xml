@@ -139,7 +139,6 @@
             cre_date >= DATE_TRUNC('day', cre_date)
         AND
         cre_date <![CDATA[ < ]]> DATE_TRUNC('day', cre_date) + INTERVAL '1 day';
-
     </select>
 
     <!--30일 이내 추천 수 갯수-->

@@ -94,4 +94,12 @@ public class ContentService {
     public List<ContentVO> getCategoryByContent(String category){
         return contentMapper.getCategoryByContent(category);
     }
+
+    public List<ContentVO> getRankingRec() throws Exception{
+        try {
+            return contentMapper.getRankingRec();
+        }catch (Exception e){
+            throw new Exception("알 수 없는 오류로 인해 데이터 조회에 실패하였습니다." ,e);
+        }
+    }
 }

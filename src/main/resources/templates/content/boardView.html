@@ -7,31 +7,61 @@
   <script type="text/javascript" src="/static/js/bootstrap.bundle.min.js"></script>
   <script type="text/javascript" src="/static/js/jquery-3.6.0.min.js"></script>
   <script type="text/javascript" src="/static/js/header.js"></script>
+  <style>
+    .text-right {
+        text-align: right;
+    }
+</style>
 </head>
 <body>
 <div th:replace="~{commons/header :: header}"></div>
 <h1 th:text="${view.title}" style="text-align: center;"></h1>
+<br>
+<br>
+<hr>
 <div class="container">
-  <div class="row">
-    <div class="col">작성자</div>
-    <input class="form-control" type="text" th:value="${view.author}" aria-label="작성자" disabled readonly>
+  <div class="form-group row mb-0">
+    <label for="author" class="col-sm-2 col-form-label text-right">작성자</label>
+    <div class="col-sm-10">
+      <input class="form-control" type="text" id="author" th:value="${view.author}" aria-label="작성자" disabled readonly>
+    </div>
   </div>
-  <div class="row">
-    <div class="col">제목</div>
-    <input class="form-control" type="text" th:value="${view.title}" aria-label="제목" disabled readonly>
+
+  <div class="form-group row mb-0">
+    <label for="title" class="col-sm-2 col-form-label text-right">제목</label>
+    <div class="col-sm-10">
+      <input class="form-control" type="text" id="title" th:value="${view.title}" aria-label="제목" disabled readonly>
+    </div>
   </div>
-  <div class="row">
-    <div class="col">작성일자</div>
-    <input class="form-control" type="text" th:value="${#temporals.format(view.creDate, 'yy.MM.dd')}" aria-label="작성일자" disabled readonly>
+
+  <div class="form-group row mb-0">
+    <label for="creDate" class="col-sm-2 col-form-label text-right">작성일자</label>
+    <div class="col-sm-10">
+      <input class="form-control" type="text" id="creDate" th:value="${#temporals.format(view.creDate, 'yy.MM.dd')}" aria-label="작성일자" disabled readonly>
+    </div>
   </div>
-  <div class="row">
-    <div class="col">조회수</div>
-    <input class="form-control" type="text" th:value="${view.views}" aria-label="조회수" disabled readonly>
+
+  <div class="form-group row mb-0">
+    <label for="postContent" class="col-sm-2 col-form-label text-right">글내용</label>
+    <div class="col-sm-10">
+      <textarea class="form-control" id="postContent" aria-label="글내용" disabled readonly th:text="${view.postContent}" style="height: 200px;"></textarea>
+    </div>
   </div>
-  <div class="row">
-    <div class="col">추천수</div>
-    <input class="form-control" type="text" th:value="${view.recCount}" aria-label="추천수" disabled readonly>
+
+  <div class="form-group row mb-0">
+    <label for="views" class="col-sm-2 col-form-label text-right">조회수</label>
+    <div class="col-sm-10">
+      <input class="form-control" type="text" id="views" th:value="${view.views}" aria-label="조회수" disabled readonly>
+    </div>
   </div>
+
+  <div class="form-group row mb-0">
+    <label for="recCount" class="col-sm-2 col-form-label text-right">추천수</label>
+    <div class="col-sm-10">
+      <input class="form-control" type="text" id="recCount" th:value="${view.recCount}" aria-label="추천수" disabled readonly>
+    </div>
+  </div>
+
   <hr>
   <br>
   <br>

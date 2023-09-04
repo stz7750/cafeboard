@@ -46,4 +46,6 @@ public interface ContentMapper {
     List<ContentVO> getWeekMostView();
 
     List<ContentVO> getCategoryByContent(@Param("category")String category);
+
+    List<ContentVO> getRankingRec();
 }

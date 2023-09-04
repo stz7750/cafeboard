@@ -341,7 +341,8 @@
             $("#inputTitle").val(title);
             $("#inputContent").val(content);
             $("#inputNotiNum").val(notiNum);
-            $("#notiImg").val
+            $("#selectedFileLink").val(notiImgName);
+            $("#selectedFileLink").text(notiImgName);
 
             var isUpdate = $(aTag).data("update"); // 업데이트인지 여부를 확인
             if (isUpdate) {
@@ -349,7 +350,7 @@
             } else {
                 $("#modifyId").val(""); // 업데이트가 아닐 때는 빈 값을 설정
             }
-                }
+        }
 
         //삭제 버튼이 눌리면 공지 게시글이 delete가 진행됩니다.
         function deleteNotification(button){

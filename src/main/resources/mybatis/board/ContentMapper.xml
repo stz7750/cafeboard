@@ -240,6 +240,18 @@
             category = #{category}
     </select>
 
+    <select id="getRankingRec" resultType="com.board.demo.content.vo.ContentVO">
+        SELECT
+            author,
+            SUM(rec_count) as RecCount
+        FROM
+            content
+        GROUP BY
+            author
+        ORDER BY
+            RecCount DESC
+        LIMIT 10
+    </select>
 
 
 

@@ -26,7 +26,7 @@ public class FileStorageService {
         }
 
         // 파일 이름을 유니크하게 생성하거나 원본 파일 이름 사용
-        String fileName = file.getOriginalFilename();
+        String fileName = new String(file.getOriginalFilename().getBytes("UTF-8"), "ISO-8859-1");
         Path filePath = dirPath.resolve(fileName);
 
         // 파일을 저장
@@ -34,7 +34,7 @@ public class FileStorageService {
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
             return fileName; // 저장된 파일 이름 반환
         } catch (IOException ex) {
-            throw new IOException("Failed to store file " + fileName, ex);
+            throw new IOException("사진 저장 실패" + fileName, ex);
         }
     }
 }
