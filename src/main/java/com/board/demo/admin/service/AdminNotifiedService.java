@@ -3,7 +3,7 @@ package com.board.demo.admin.service;
 
 import com.board.demo.admin.mapper.AdminNotifiedMapper;
 import com.board.demo.admin.vo.NotifiedVO;
-import com.board.demo.FileStorageService;
+import com.board.demo.global.FileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

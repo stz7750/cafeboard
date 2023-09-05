@@ -1,4 +1,4 @@
-package com.board.demo;
+package com.board.demo.global;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

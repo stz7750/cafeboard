@@ -4,7 +4,7 @@ package com.board.demo.member.controller;
 import com.board.demo.admin.vo.NotifiedVO;
 import com.board.demo.content.service.ContentService;
 import com.board.demo.content.vo.ContentVO;
-import com.board.demo.TableModule;
+import com.board.demo.global.TableModule;
 import com.board.demo.member.serivce.MemberService;
 import com.board.demo.member.vo.AjaxPageResponse;
 import com.board.demo.member.vo.MemberVO;

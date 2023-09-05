@@ -1,4 +1,4 @@
-package com.board.demo;
+package com.board.demo.global;
 
 import com.board.demo.content.vo.ContentVO;
 
