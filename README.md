@@ -1,6 +1,6 @@
 # cafeboard
 
-
+	<div align="center">
  <img src="https://img.shields.io/badge/springboot-6DB33F?style=flat&logo=springboot&logoColor=white"/>
  <img src="https://img.shields.io/badge/springsecurity-6DB33F?style=flat&logo=springsecurity&logoColor=white"/>
  <img src="https://img.shields.io/badge/java-F7DF1E?style=flat&logo=java&logoColor=white"/>
@@ -17,6 +17,5 @@
  <img src="https://img.shields.io/badge/bootstrap-7952B3?style=flat&logo=bootstrap&logoColor=white"/>
  <img src="https://img.shields.io/badge/git-F05032?style=flat&logo=git&logoColor=white"/>
  <img src="https://img.shields.io/badge/htmx-0769AD?style=flat&logo=&logoColor=white"/>
- 
- 
- 
+ <img src="https://img.shields.io/badge/github-181717?style=flat&logo=github&logoColor=white"/>
+ </div>
