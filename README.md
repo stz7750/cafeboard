@@ -13,10 +13,10 @@
 ## ⚙️ 개발 환경
 - java 8
 - jdk 1.8
-- ** IDE ** : intellij community ver
-- ** FRAMEWORK ** : springBoot(2.7.14)
-- ** DATABASE ** : PostgreSQL
-- ** ORM ** : Mybatis
+- IDE : intellij community ver
+- FRAMEWORK : springBoot(2.7.14)
+- DATABASE : PostgreSQL
+- ORM : Mybatis
 
 
 ## ✍️ used in this project.. ✍️
