@@ -29,6 +29,8 @@
 	 <img src="https://img.shields.io/badge/macos-000000?style=flat&logo=macos&logoColor=white"/>
 	 <img src="https://img.shields.io/badge/mariadb-003545?style=flat&logo=mariadb&logoColor=white"/>
 	 <img src="https://img.shields.io/badge/filezilla-BF0000?style=flat&logo=filezilla&logoColor=white"/>
+</div>
+<div align="center">
 	 <img src="https://img.shields.io/badge/thymeleaf-005F0F?style=flat&logo=thymeleaf&logoColor=white"/>
 	 <img src="https://img.shields.io/badge/html5-E34F26?style=flat&logo=html5&logoColor=white"/>
 	 <img src="https://img.shields.io/badge/css3-1572B6?style=flat&logo=css3&logoColor=white"/>
