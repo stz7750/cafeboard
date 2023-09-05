@@ -1,5 +1,6 @@
-# cafeboard
+# 자유게시판(cafeboard) toy project
 
+## ✍️ used in this project 
 <div align="center">
 	 <img src="https://img.shields.io/badge/springboot-6DB33F?style=flat&logo=springboot&logoColor=white"/>
 	 <img src="https://img.shields.io/badge/springsecurity-6DB33F?style=flat&logo=springsecurity&logoColor=white"/>
