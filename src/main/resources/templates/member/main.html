@@ -172,8 +172,7 @@
         </div>
 
         <div class="col-md-6 text-md-end">
-            <h2>인기 멤버</h2>
-            <button id="reloadData">새로고침</button>
+            <h2 class="text-center">인기 멤버</h2>
             <table class="table">
                 <thead>
                 <tr>
@@ -185,6 +184,8 @@
                 <tbody id="RankTbody">
                 </tbody>
             </table>
+            <button id="reloadData" hx-get="/hello/showAlert" hx-trigger="click" hx-target="#targetDiv">새로고침</button>
+            <div id="targetDiv" style="color: red;"></div>
         </div>
     </div>
 </div>

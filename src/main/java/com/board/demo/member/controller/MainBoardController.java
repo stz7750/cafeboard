@@ -57,6 +57,12 @@ public class MainBoardController {
         return rankRecData;
     }
 
+    @GetMapping("/showAlert")
+    @ResponseBody
+    public String showAlert() {
+        return "새로고침 되었습니다.";
+    }
+
     @PostMapping("/getTodayRecData")
     @ResponseBody
     public String getTodayRecData(){
@@ -101,8 +107,21 @@ public class MainBoardController {
     //회원 insert
     @PostMapping("/signUp")
     public String welcome(MemberVO vo){
-        service.addMember(vo);
-        return "/member/login";
+        String id = vo.getId();
+        String name = vo.getName();
+        String password = vo.getPassword();
+        MemberVO member = service.findByUserinfo(id);
+
+        boolean passwordLength = password.length() >= 8 && password.length() <= 15;
+        boolean username = name.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*");
+
+        if(member == null && !username && passwordLength){
+            service.addMember(vo);
+            return "success";
+        }else{
+            return "fail";
+        }
+
     }
 
     //로그인

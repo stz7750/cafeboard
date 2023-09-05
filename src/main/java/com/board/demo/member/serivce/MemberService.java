@@ -32,15 +32,17 @@ public class MemberService {
     }
 
     public MemberVO findByUserinfo(String memberId){
-
         MemberVO member =  mapper.findByUserinfo(memberId);
-        String[] addressArray = member.getAddress().split(",");
-        if (addressArray.length >= 2) {
-            member.setAddr1(addressArray[0].trim()); // 앞부분을 addr1에 저장
-            member.setAddr2(addressArray[1].trim()); // 뒷부분을 addr2에 저장
-        } else {
-            member.setAddr1(member.getAddress().trim()); // 쉼표가 없는 경우, 전체 주소를 addr1에 저장
-            member.setAddr2(""); // addr2는 비워둠
+
+        if (member != null) {
+            String[] addressArray = member.getAddress().split(",");
+            if (addressArray.length >= 2) {
+                member.setAddr1(addressArray[0].trim());
+                member.setAddr2(addressArray[1].trim());
+            } else {
+                member.setAddr1(member.getAddress().trim());
+                member.setAddr2(""); // addr2는 비워둠
+            }
         }
 
         return member;

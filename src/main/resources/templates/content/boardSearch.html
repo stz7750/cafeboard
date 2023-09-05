@@ -59,23 +59,7 @@
     <a class="btn btn-outline-dark" href="/content/boardRegist">글 작성</a>
   </div>
 
-  <nav aria-label="Page navigation example" th:if="${!searchContent.isEmpty()}">
-    <ul class="pagination pagination-sm justify-content-center">
-      <li class="page-item">
-        <a class="page-link" th:href="@{|?page=${searchContent.number-1 > 0 ? searchContent.number-1 : 0}|}"  aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
-        </a>
-      </li>
-      <li class="page-item" th:each="page : ${#numbers.sequence(0, searchContent.totalPages-1)}" th:classappend="${page == searchContent.number ? 'page-item active' : 'page-item'}">
-        <a class="page-link" th:text="${page + 1}" th:href="@{|?page=${page + 1}|}"></a>
-      </li>
-      <li class="page-item">
-        <a class="page-link" aria-label="Next" th:href="@{|?page=${searchContent.number+1}|}">
-          <span aria-hidden="true">&raquo;</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
+  <div th:replace="~{commons/pagination :: nav (list=${searchContent})}"></div>
   <div th:replace="~{commons/footer :: footer}"></div>
 
 </div>
