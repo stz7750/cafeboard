@@ -1,5 +1,24 @@
 # 자유게시판(cafeboard) toy project
 
+## 💻 cafeboard project
+2023.08 - 2023.09
+
+## 🙂 멤버
+- kim tae hun
+
+## 💼 프로젝트 소개
+개발하면서 습득한 지식들을 잘 이용해서 누구나 자유롭게 어떤 주제로든 이야기가 가능한 게시판을 만들었습니다.
+실제로 이번 프로젝트에서 운영과 유지보수를 진행했습니다.
+
+## ⚙️ 개발 환경
+- java 8
+- jdk 1.8
+- ** IDE ** : intellij community ver
+- ** FRAMEWORK ** : springBoot(2.7.14)
+- ** DATABASE ** : PostgreSQL
+- ** ORM ** : Mybatis
+
+
 ## ✍️ used in this project.. ✍️
 <div align="center">
 	 <img src="https://img.shields.io/badge/springboot-6DB33F?style=flat&logo=springboot&logoColor=white"/>
@@ -21,7 +40,7 @@
 	 <img src="https://img.shields.io/badge/github-181717?style=flat&logo=github&logoColor=white"/>
 </div>
 
-##  project schedule
+## 📅 project schedule
 
 | Week | 세미나 | 과제 |커리큘럼 내용 |
 | ------ | -- | -- |----------- |
@@ -29,4 +48,5 @@
 | 2주차 | ☑️ | ☑️ | 사용자 관련 페이지 완성(로그인,메인,마이페이지) , 자유게시판 페이지 완성, 시나리오 테스트   |
 | 3주차 | ☑️ | ☑️ | 관리자 관련 페이지 완성(aop 적용 후 로그 남기기...), 서버 호스팅 관련 정보 찾기 |
 | 4주차 | ☑️ | ☑️ | 도메인 구매, https 적용  |
+
 
