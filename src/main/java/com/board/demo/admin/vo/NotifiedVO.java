@@ -17,4 +17,9 @@ public class NotifiedVO {
     private String notiImgName;
     private String notiNum;
     private String modifyId;
+
+    /* 23.09.12 추가*/
+    private String category;
+    private String starttime;
+    private String endtime;
 }

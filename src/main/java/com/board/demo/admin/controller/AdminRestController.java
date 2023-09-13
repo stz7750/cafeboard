@@ -6,8 +6,11 @@ import com.board.demo.admin.vo.NotifiedVO;
 import com.board.demo.member.serivce.MemberService;
 import com.board.demo.member.vo.MemberVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/management")
@@ -20,18 +23,22 @@ public class AdminRestController {
     MemberService memberService;
 
     @PostMapping("/saveNotified")
-    public int saveNotified(@RequestParam("title") String title,
-                            @RequestParam("content") String content,
-                            @RequestParam("author") String author,
-                            @RequestParam("notiNum") String notiNum,
-                            @RequestParam("modify_id") String modifyId,
-                            @RequestParam("notiImg") MultipartFile notiImg){
+    public int saveNotified(@RequestParam(value = "title", required = false) String title,
+                            @RequestParam(value = "content", required = false) String content,
+                            @RequestParam(value = "author", required = false) String author,
+                            @RequestParam(value = "notiNum", required = false) String notiNum,
+                            @RequestParam(value = "modify_id", required = false) String modifyId,
+                            @RequestParam("notiImg") MultipartFile notiImg,
+                            @RequestParam(value = "starttime", required = false) String starttime,
+                            @RequestParam(value= "endtime", required = false) String endtime){
         NotifiedVO vo = new NotifiedVO();
         vo.setTitle(title);
         vo.setContent(content);
         vo.setAuthor(author);
         vo.setNotiNum(notiNum);
         vo.setModifyId(modifyId);
+        vo.setStarttime(starttime);
+        vo.setEndtime(endtime);
 
         int upsert = adminNotifiedService.upsertNotified(vo,notiImg);
         if(upsert > 0){

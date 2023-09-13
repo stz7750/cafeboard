@@ -51,6 +51,11 @@ public class AdminNotifiedService {
         
         if(vo.getNotiNum() == null || vo.getNotiNum().isEmpty()) {
             vo.setNotiNum(formattedDate + "cafe" + formatcount);
+            if(vo.getStarttime() != null && vo.getEndtime() != null){
+                vo.setCategory("팝업");
+            }else{
+                vo.setCategory("공지");
+            }
         }
         int upsert =  notifiedMapper.insertOrUpdateNotified(vo);
         if(upsert > 0){

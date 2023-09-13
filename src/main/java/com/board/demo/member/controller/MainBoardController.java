@@ -57,6 +57,7 @@ public class MainBoardController {
         return rankRecData;
     }
 
+    /*htmx*/
     @GetMapping("/showAlert")
     @ResponseBody
     public String showAlert() {

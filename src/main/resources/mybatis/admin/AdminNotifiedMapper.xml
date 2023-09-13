@@ -57,7 +57,9 @@
             author,
             show_yn,
             noti_img_name,
-            noti_num
+            noti_num,
+            starttime,
+            endtime
             )
             VALUES
             (
@@ -66,7 +68,9 @@
             #{author},
             'Y',
             #{notiImgName},
-            #{notiNum}
+            #{notiNum},
+            #{starttime},
+            #{endtime}
             )
         ON CONFLICT (noti_num) DO UPDATE
         SET
