@@ -1,6 +1,7 @@
 package com.board.demo.member.controller;
 
 
+import com.board.demo.admin.service.AdminNotifiedService;
 import com.board.demo.admin.vo.NotifiedVO;
 import com.board.demo.content.service.ContentService;
 import com.board.demo.content.vo.ContentVO;
@@ -36,6 +37,9 @@ public class MainBoardController {
     @Autowired
     ContentService contentService;
 
+    @Autowired
+    AdminNotifiedService adminNotifiedService;
+
     @Value("${file.upload-dir}")
     private String uploadDir;
 
@@ -46,9 +50,11 @@ public class MainBoardController {
         m.addAttribute("RecContent",contentService.getMostRecContent());
         m.addAttribute("viewContent",contentService.getMostViewContent());
         m.addAttribute("mainNotified",mainNotifiedList);
+        m.addAttribute("eventList",service.getPopup());
         m.addAttribute("notiPath",uploadDir);
         return "member/main";
     }
+
 
     @GetMapping("/getRankRecData")
     @ResponseBody

@@ -52,25 +52,11 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>ex</td>
-                        <td>2023.09.05~2023.10.05</td>
-                        <td>taehun2361</td>
-                        <td>2023.09.05</td>
-                        <td><button>공개</button></td>
-                    </tr>
-                    <tr>
-                        <td>ex</td>
-                        <td>2023.09.05~2023.10.05</td>
-                        <td>taehun2361</td>
-                        <td>2023.09.05</td>
-                        <td><button>공개</button></td>
-                    </tr>
-                    <tr>
-                        <td>ex</td>
-                        <td>2023.09.05~2023.10.05</td>
-                        <td>taehun2361</td>
-                        <td>2023.09.05</td>
+                    <tr th:each="eventList :${eventList}">
+                        <td th:text="${eventList.title}">ex</td>
+                        <td th:text="|${eventList.starttime} ~ ${eventList.endtime}|">2023.09.05~2023.10.05</td>
+                        <td th:text="${eventList.author}">taehun2361</td>
+                        <td th:text="${#temporals.format(eventList.createdDate, 'yy.MM.dd')}">2023.09.05</td>
                         <td><button>공개</button></td>
                     </tr>
                     </tbody>

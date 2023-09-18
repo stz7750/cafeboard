@@ -12,6 +12,10 @@ public interface AdminNotifiedMapper {
 
     int cntNotified(@Param("start")int start, @Param("size")int size);
     List<NotifiedVO> selectNotified(@Param("start")int start,@Param("size")int size);
+
+    List<NotifiedVO> selectEvent(@Param("start")int start, @Param("size")int size);
+
+    int cntEvent();
     int insertOrUpdateNotified(NotifiedVO vo);
 
     Integer prevNotifiedNum();
@@ -19,4 +23,5 @@ public interface AdminNotifiedMapper {
     void updateNotifiedShowYn(@Param("id") int id, @Param("showYn") String showYn);
 
     int deleteNotification(int id);
+
 }

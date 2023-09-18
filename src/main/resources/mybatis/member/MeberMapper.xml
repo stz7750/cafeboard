@@ -4,11 +4,34 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.board.demo.member.mapper.MemberMapper">
 
+    <resultMap id="notifiedResultMap" type="com.board.demo.admin.vo.NotifiedVO">
+        <id property="id" column="id" />
+        <result property="title" column="title" />
+        <result property="content" column="content" />
+        <result property="author" column="author" />
+        <result property="createdDate" column="created_date" />
+        <result property="showYn" column="show_yn" />
+        <result property="notiImg" column="noti_img"/>
+        <result property="notiImgName" column="noti_img_name"/>
+        <result property="notiNum" column="noti_num"/>
+    </resultMap>
+
     <select id="selectMember" resultType="com.board.demo.member.vo.MemberVO">
         SELECT
             *
         FROM
             MEMBER;
+    </select>
+
+    <select id="selectPopup" resultMap="notifiedResultMap">
+        SELECT
+            *
+        FROM
+            NOTIFIED
+        WHERE
+            category = '팝업'
+        ORDER BY
+            created_date DESC
     </select>
 
     <select id="notifiedMain" resultType="com.board.demo.admin.vo.NotifiedVO">

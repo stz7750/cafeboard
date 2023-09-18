@@ -32,6 +32,7 @@ public class AdminController {
     public String dashBoard(Model m,
                             @RequestParam(name ="page" ,defaultValue = "1")int  page,
                             @RequestParam(name ="notiPage", defaultValue = "1")int notiPage,
+                            @RequestParam(name ="eventPage", defaultValue = "1")int eventPage,
                             @RequestParam(name ="size",required = false, defaultValue = "5")int  size){
 
         LocalDateTime currentDateTime = LocalDateTime.now();
@@ -40,8 +41,10 @@ public class AdminController {
 
         int userCnt = adminLogService.getLoggedInUserCount();
         Page<NotifiedVO> notifiedPaging = adminNotifiedService.getNotifiedPaging(notiPage,size);
+        Page<NotifiedVO> eventPopupPaging = adminNotifiedService.getEventPopupPaging(eventPage,size);
         Page<AdminLogVO> logPaging = adminLogService.getAdminLogPaging(page,size);
         m.addAttribute("notifiedList",notifiedPaging);
+        m.addAttribute("eventList",eventPopupPaging);
         m.addAttribute("logList",logPaging);
         m.addAttribute("currentDayOfWeek",currentDayOfWeek);
         m.addAttribute("usercnt",userCnt);

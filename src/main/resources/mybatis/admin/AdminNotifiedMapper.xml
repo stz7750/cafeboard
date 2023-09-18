@@ -22,6 +22,8 @@
             *
         FROM
             NOTIFIED
+        WHERE
+            category = '공지'
         ORDER BY
             created_date DESC
         LIMIT #{size} OFFSET #{start}
@@ -32,6 +34,30 @@
             COUNT(*)
         FROM
             NOTIFIED
+        WHERE
+            category = '공지'
+    </select>
+
+    <!--23.09.18 팝업이벤트-->
+    <select id="selectEvent" resultMap="notifiedResultMap">
+        SELECT
+            *
+        FROM
+            NOTIFIED
+        WHERE
+            category = '팝업'
+        ORDER BY
+            created_date DESC
+        LIMIT #{size} OFFSET #{start}
+    </select>
+
+    <select id="cntEvent" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            NOTIFIED
+        WHERE
+            category = '팝업'
     </select>
     <!--이전 noti_num을 subString해서 가져옵니다. -->
     <select id="prevNotifiedNum" resultType="java.lang.Integer">
@@ -58,6 +84,7 @@
             show_yn,
             noti_img_name,
             noti_num,
+            category,
             starttime,
             endtime
             )
@@ -69,6 +96,7 @@
             'Y',
             #{notiImgName},
             #{notiNum},
+            #{category},
             #{starttime},
             #{endtime}
             )

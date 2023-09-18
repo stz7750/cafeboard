@@ -17,6 +17,7 @@ public interface MemberMapper {
 
     int insertMember(MemberVO vo);
 
+    List<NotifiedVO> selectPopup();
     MemberVO findByUserinfo(@Param("memberId")String memberId);
 
     int memberInfoModify(MemberVO vo);

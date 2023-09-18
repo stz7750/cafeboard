@@ -31,6 +31,10 @@ public class MemberService {
         return mapper.insertMember(vo);
     }
 
+    public List<NotifiedVO> getPopup(){
+        return mapper.selectPopup();
+    }
+
     public MemberVO findByUserinfo(String memberId){
         MemberVO member =  mapper.findByUserinfo(memberId);
 

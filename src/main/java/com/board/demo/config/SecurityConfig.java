@@ -34,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/","/hello/login","/hello/entry","/hello/signUp","/hello/forbidden").permitAll() // 로그인 페이지,가입페이지
                 .antMatchers("/static/css/**", "/static/js/**", "/static/img/**").permitAll() // CSS, JS, 이미지 파일은 모든 사용자에게 허용
                 .antMatchers(uploadDir + "/**").permitAll() // 사진 업로드 디렉토리
+                .antMatchers("/Users/gimtaehun/Downloads/file/boardUp/**").permitAll()
                 .antMatchers("/.well-known/pki-validation/**").permitAll() // SSL 인증서 경로
                 .antMatchers("/admin/dashBoard").hasAnyRole("ADMIN")
                 .anyRequest().authenticated() // 로그인이 필요한 요청은 인증 필요

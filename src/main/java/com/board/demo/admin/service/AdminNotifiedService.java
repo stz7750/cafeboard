@@ -75,6 +75,16 @@ public class AdminNotifiedService {
         return result;
     }
 
+    public Page<NotifiedVO> getEventPopupPaging(int page, int size){
+        final int start = (page -1)*size;
+        final int count = notifiedMapper.cntEvent();
+
+        List<NotifiedVO> list = notifiedMapper.selectEvent(start,size);
+        Page<NotifiedVO> result = new PageImpl<NotifiedVO>(list, PageRequest.of(page -1, size),count);
+        return result;
+    }
+
+
     public void updateNotifiedShowYn(int id, String showYn) {
         notifiedMapper.updateNotifiedShowYn(id, showYn);
     }
